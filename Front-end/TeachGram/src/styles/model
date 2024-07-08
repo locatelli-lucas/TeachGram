@@ -1,0 +1,86 @@
+import styled from "styled-components";
+import './fonts.css';
+import {
+    Logo,
+    LogoTitle,
+    Title,
+    Form,
+    TitleForm,
+    Span,
+    Inputs,
+    Input,
+    Div_Input,
+    Label,
+    CheckboxStyle, ForgotPassword, ButtonStyle, RegisterStyle, RegisterLink
+} from "../GeneralStyle.ts";
+
+export const LoginMain = styled.main`
+    width: 70vw;
+    height: 85vh;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+`;
+
+export const LoginLogo  = styled(Logo)`
+
+`;
+
+export const LoginTitle = styled(Title)`
+
+`;
+
+export const LoginLogoTitle = styled(LogoTitle)`
+
+`;
+
+export const LoginForm = styled(Form)`
+
+`;
+
+export const LoginTitleForm = styled(TitleForm)`
+
+`;
+
+export const LoginSpan = styled(Span)`
+
+`;
+
+export const LoginInputs = styled(Inputs)`
+
+`;
+
+export const LoginInput = styled(Input)`
+
+`;
+
+export const LoginDiv_Input = styled(Div_Input)`
+
+`;
+
+export const LoginLabel = styled(Label)`
+
+`;
+
+export const LoginCheckboxStyle = styled(CheckboxStyle)`
+
+`;
+
+export const LoginForgotPassword = styled(ForgotPassword)`
+
+`;
+
+export const LoginButtonStyle = styled(ButtonStyle)`
+
+`;
+
+export const LoginRegisterStyle = styled(RegisterStyle)`
+
+`;
+
+export const LoginRegisterLink = styled(RegisterLink)`
+
+`;
+
+
+

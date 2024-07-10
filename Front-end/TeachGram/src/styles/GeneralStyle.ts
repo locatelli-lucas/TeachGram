@@ -108,7 +108,7 @@ export const Inputs = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
-    
+    margin-bottom: 3px;
 `;
 
 export const Input = styled.input<InputProps>`
@@ -147,13 +147,22 @@ export const Label = styled.label`
     font-family: sans-serif;
     color: #303030;
     font-size: 0.9em;
-    top: 5px;
+    top: 1px;
+    
+`;
+
+export const CheckboxLabel = styled.label`
+    position: relative;
+    font-family: sans-serif;
+    color: #303030;
+    font-size: 0.9em;
+    left: 10px;
+    top: 15px;
 `;
 
 export const CheckboxStyle = styled.input.attrs({type: 'checkbox'})`
     position: relative;
-    top: 1px;
-    right: 3px;
+    right: 5px;
 `;
 
 export const ForgotPassword = styled.a`
@@ -162,6 +171,7 @@ export const ForgotPassword = styled.a`
     color: #303030;
     font-size: 0.9em;
     margin-left: 6.5em;
+    top: 15px;
 `;
 
 export const ButtonStyle = styled.button`
@@ -219,7 +229,7 @@ export const LittleCircle = styled.div`
     top: 5px;
 `;
 
-export const UnfulffiledStyle = styled.div`
+export const ErrorStyle = styled.div`
     position: relative;
     display: flex;
     justify-content: end;
@@ -229,6 +239,6 @@ export const UnfulffiledStyle = styled.div`
     font-weight: bold;
     gap: 5px;
     transform: scale(0.7);
-    height: 0.5vh;
+    height: 0.1vh;
 `
 

@@ -1,4 +1,4 @@
-import { CheckboxStyle, Label } from "../styles/GeneralStyle.ts";
+import {CheckboxLabel, CheckboxStyle} from "../styles/GeneralStyle.ts";
 
 
 interface Props {
@@ -7,6 +7,6 @@ interface Props {
 
 export function Checkbox({label}: Props) {
     return (
-        <Label htmlFor="checkbox"><CheckboxStyle type="checkbox" id = "checkbox"/>{label}</Label>
+        <CheckboxLabel htmlFor="checkbox"><CheckboxStyle type="checkbox" id = "checkbox"/>{label}</CheckboxLabel>
     )
 }

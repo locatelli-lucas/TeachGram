@@ -17,3 +17,40 @@ export async function createUser(user: User) {
         console.error("Error: ", error);
     }
 }
+
+export async function getUsers() {
+    try {
+        const response = await API.get("/users")
+        return response.data
+    } catch (error) {
+        console.error("Error: ", error);
+    }
+}
+
+export async function getUserByEmail(email: string) {
+    try {
+        const response = await API.get(`/users`)
+        return response.data.find((user: { email: string }) => user.email === email)
+    } catch (error) {
+        console.error("Error: ", error);
+    }
+}
+
+export async function getUserByUserName(userName: string) {
+    try {
+        const response = await API.get(`/users`)
+        return response.data.find((user: { userName: string }) => user.userName === userName)
+    } catch (error) {
+        console.error("Error: ", error);
+    }
+}
+
+export async function getUserByPhone(phone: string) {
+    try {
+        const response = await API.get(`/users`)
+        return response.data.find((user: { phone: string }) => user.phone === phone)
+    } catch (error) {
+        console.error("Error: ", error);
+    }
+}
+

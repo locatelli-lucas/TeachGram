@@ -22,6 +22,17 @@ interface RegisterStyleProps {
     marginLeft?: number;
 }
 
+interface InputsProps {
+    marginLeft?: number;
+}
+
+interface ErrorProps {
+    marginLeft?: number;
+}
+
+interface TitleFormProps {
+    marginLeft?: number;
+}
 
 export const Main = styled.main`
     position: relative;
@@ -67,7 +78,6 @@ export const LogoTitle = styled.div`
     position: relative;
     display: flex;
     top: 119px;
-    
 `;
 
 export const Form = styled.form<FormProps>`
@@ -84,7 +94,7 @@ export const Form = styled.form<FormProps>`
     gap: ${(props) => `${props.gap}`}em;
 `;
 
-export const TitleForm = styled.div`
+export const TitleForm = styled.div<TitleFormProps>`
    display: flex;
    flex-direction: column;
    position: relative;
@@ -92,6 +102,7 @@ export const TitleForm = styled.div`
    margin: 0 auto;
    bottom: 4em;
    align-items: center;
+   left: ${props => `${props.marginLeft}`}em;
 `
 
 export const FormName = styled.span<SpanProps>`
@@ -101,22 +112,24 @@ export const FormName = styled.span<SpanProps>`
     font-size: 1.5em;
     font-weight: bold;
     color: #303030;
-    margin: 0 0 ${props => `${props.marginBottom}`}em 0;
+    margin: 0 0 ${props => `${props.marginBottom}`}em 0.6em;
 `;
 
-export const Inputs = styled.div`
+export const Inputs = styled.div<InputsProps>`
     position: relative;
     display: flex;
     flex-direction: column;
     margin-bottom: 3px;
+    margin-left: ${props => `${props.marginLeft}`}em;
 `;
 
 export const Input = styled.input<InputProps>`
     position: relative;
     top: 8px;
     padding-left: 10px;
+    margin-left: 1em;
     height: 3em;
-    width: 22em;
+    width: 19.3em;
     border-radius: 10px;
     border: 1px solid #A09F9F;
     margin-bottom: ${props => `${props.marginBottom}em`};
@@ -148,7 +161,7 @@ export const Label = styled.label`
     color: #303030;
     font-size: 0.9em;
     top: 1px;
-    
+    margin-left: 1em;
 `;
 
 export const CheckboxLabel = styled.label`
@@ -156,13 +169,14 @@ export const CheckboxLabel = styled.label`
     font-family: sans-serif;
     color: #303030;
     font-size: 0.9em;
-    left: 10px;
-    top: 15px;
+    left: 1em;
+    top: 1em;
 `;
 
 export const CheckboxStyle = styled.input.attrs({type: 'checkbox'})`
     position: relative;
-    right: 5px;
+    left: 0.5em;
+    margin-right: 0.7em;
 `;
 
 export const ForgotPassword = styled.a`
@@ -170,7 +184,7 @@ export const ForgotPassword = styled.a`
     font-family: sans-serif;
     color: #303030;
     font-size: 0.9em;
-    margin-left: 6.5em;
+    margin-left: 3.8em;
     top: 15px;
 `;
 
@@ -187,7 +201,7 @@ export const ButtonStyle = styled.button`
     font-weight: bold;
     box-shadow: 5px 5px 5px #DCDCDC;
     top: 50px;
-    left: 1.2em;
+    left: 1em;
     cursor: pointer;
     transition: 300ms;
 
@@ -229,16 +243,26 @@ export const LittleCircle = styled.div`
     top: 5px;
 `;
 
-export const ErrorStyle = styled.div`
-    position: relative;
+export const ErrorStyle = styled.div<ErrorProps>`
+    width: 18.5vw;
+    height: 10vh;
+    position: absolute;
     display: flex;
     justify-content: end;
-    top: 13px;
-    left: 45px;
+    top: 4.2em;
+    margin-left: ${props => `${props.marginLeft}`}em;
     color: #F37671;
     font-weight: bold;
     gap: 5px;
     transform: scale(0.7);
-    height: 0.1vh;
 `
+
+export const BackButtonStyle = styled.button`
+    position: absolute;
+    border: none;
+    background: none;
+    cursor: pointer;
+    top: 3em;
+    left: 3em;
+`;
 

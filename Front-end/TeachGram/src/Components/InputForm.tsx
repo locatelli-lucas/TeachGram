@@ -16,9 +16,10 @@ interface Props {
     errorMessage?: string
     isValid?: boolean
     onInvalidCapture?: (e: React.FormEvent<HTMLInputElement>) => void
+    marginLeftError?: number
 }
 
-export function InputAndLabel({htmlFor, type, placeholder, name, marginBottom, value, onChange, required, inputRef, errorMessage, isValid, onInvalidCapture}: Props) {
+export function InputAndLabel({htmlFor, type, placeholder, name, marginBottom, value, onChange, required, inputRef, errorMessage, isValid, onInvalidCapture, marginLeftError}: Props) {
 
     function handleClick() {
         if (inputRef?.current) {
@@ -31,7 +32,7 @@ export function InputAndLabel({htmlFor, type, placeholder, name, marginBottom, v
         <Div_Input>
             <Label htmlFor={htmlFor}>{htmlFor}</Label>
             <Input ref={inputRef} onClick={handleClick} value={value} onChange={onChange} marginBottom={marginBottom} type={type} placeholder={placeholder} name={name} required={required} isValid={isValid} onInvalidCapture={onInvalidCapture} onInvalid={e => e.preventDefault()} />
-            {!isValid && <Error message={errorMessage}/>}
+            {!isValid && <Error message={errorMessage} marginLeft={marginLeftError}/>}
         </Div_Input>
     )
 }

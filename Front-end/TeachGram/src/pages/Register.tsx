@@ -9,10 +9,18 @@ import {InputAndLabel} from "../Components/InputForm.tsx";
 import {Button, ButtonType} from "../Components/Button.tsx";
 import {FirstImage} from "../Components/FirstImage.tsx";
 import React, {useRef, useState} from "react";
-import {createUser, getUserByEmail, getUserByPhone, getUserByUserName, User} from "../services/user.service.ts";
+import {
+    createUser,
+    getUserByEmail,
+    getUserByPhone,
+    getUserByUserName,
+    User
+} from "../services/user.service.ts";
+import { useNavigate } from "react-router-dom";
 
 export function Register() {
     const marginBottom = -0.3;
+    const navigate = useNavigate();
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const userNameRef = useRef<HTMLInputElement>(null);
@@ -35,12 +43,14 @@ export function Register() {
         password: ""
     });
     const [user, setUser] = useState<User>({
+        id: 0,
         name: "",
         email: "",
         userName: "",
         bio: "",
         phone: "",
         password: "",
+        profileLink: ""
     });
 
 
@@ -173,25 +183,29 @@ export function Register() {
 
     const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        createUser(user)
-            .then(response => console.log(response))
-            .catch(error => console.error(error))
+        const isValidForm = await handleErrorMessages();
+        try {
+            await createUser(user);
+            isValidForm ? navigate(`/register/${user.userName}/link`) : null
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
         <Main>
-            <TitleForm>
+            <TitleForm marginLeft={4.5}>
                 <TitleAndLogo />
                 <Body>
                     <Form height={50} gap={1.5} onSubmit={handleFormSubmit}>
                         <FormName marginBottom={0.5}>Crie sua conta</FormName>
                         <Inputs>
-                            <InputAndLabel inputRef={nameRef} errorMessage={errorMessage.name} isValid={isValid.name} value = {user.name} onChange = {handleChange} marginBottom={marginBottom}  htmlFor="Nome" type="text" placeholder="Digite seu nome" name="name" required={true}  />
-                            <InputAndLabel inputRef={emailRef} errorMessage={errorMessage.email} isValid={isValid.email} value = {user.email} onChange = {handleChange} marginBottom={marginBottom} htmlFor="E-mail" type="email" placeholder="Digite seu E-mail" name="email" required={true}  />
-                            <InputAndLabel inputRef={userNameRef} errorMessage={errorMessage.userName} isValid={isValid.userName} value = {user.userName} onChange = {handleChange} marginBottom={marginBottom} htmlFor="Username" type="text" placeholder="@seu_username" name="userName" required={true}  />
-                            <InputAndLabel inputRef={bioRef} isValid={true} value = {user.bio} onChange = {handleChange} marginBottom={marginBottom} htmlFor="Descrição" type="text" placeholder="Faça uma descrição" name="bio" />
-                            <InputAndLabel inputRef={phoneRef} errorMessage={errorMessage.phone} isValid={isValid.phone} value = {user.phone} onChange = {handleChange} marginBottom={marginBottom} htmlFor="Celular" type="tel" placeholder="Digite seu número de celular" name="phone" required={true}  />
-                            <InputAndLabel inputRef={passwordRef} errorMessage={errorMessage.password} isValid={isValid.password} value = {user.password} onChange = {handleChange} marginBottom={marginBottom} htmlFor="Senha" type="password" placeholder="Digite sua senha" name="password" required={true}  />
+                            <InputAndLabel marginLeftError={1.5} inputRef={nameRef} errorMessage={errorMessage.name} isValid={isValid.name} value = {user.name} onChange = {handleChange} marginBottom={marginBottom}  htmlFor="Nome" type="text" placeholder="Digite seu nome" name="name" required={true}  />
+                            <InputAndLabel marginLeftError={1.5} inputRef={emailRef} errorMessage={errorMessage.email} isValid={isValid.email} value = {user.email} onChange = {handleChange} marginBottom={marginBottom} htmlFor="E-mail" type="email" placeholder="Digite seu E-mail" name="email" required={true}  />
+                            <InputAndLabel marginLeftError={1.5} inputRef={userNameRef} errorMessage={errorMessage.userName} isValid={isValid.userName} value = {user.userName} onChange = {handleChange} marginBottom={marginBottom} htmlFor="Username" type="text" placeholder="@seu_username" name="userName" required={true}  />
+                            <InputAndLabel marginLeftError={1.5} inputRef={bioRef} isValid={true} value = {user.bio} onChange = {handleChange} marginBottom={marginBottom} htmlFor="Descrição" type="text" placeholder="Faça uma descrição" name="bio" />
+                            <InputAndLabel marginLeftError={1.5} inputRef={phoneRef} errorMessage={errorMessage.phone} isValid={isValid.phone} value = {user.phone} onChange = {handleChange} marginBottom={marginBottom} htmlFor="Celular" type="tel" placeholder="Digite seu número de celular" name="phone" required={true}  />
+                            <InputAndLabel marginLeftError={1.5} inputRef={passwordRef} errorMessage={errorMessage.password} isValid={isValid.password} value = {user.password} onChange = {handleChange} marginBottom={marginBottom} htmlFor="Senha" type="password" placeholder="Digite sua senha" name="password" required={true}  />
                             <Button typeButton={ButtonType.Submit} text="Próximo" onClick={handleErrorMessages}/>
                             <RegisterStyle marginTop={4.5} marginLeft={5.5}>
                                 <span>Já possui conta?</span>

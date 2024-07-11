@@ -37,7 +37,7 @@ export function Login() {
 
     const searchUserByEmail = async (email: string) => {
         try {
-            return await getUserByEmail(email);
+            return await getUserByEmail(email)
         } catch (error) {
             console.error(error);
         }
@@ -89,6 +89,7 @@ export function Login() {
 
     const handleLogin = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
+        await handleErrorMessages()
         const response = await getUsers()
         console.log(response)
 
@@ -110,8 +111,8 @@ export function Login() {
                 <Form method="get" onSubmit={handleLogin}>
                     <FormName marginBottom={2}>Faça seu login</FormName>
                     <Inputs>
-                        <InputAndLabel inputRef={inputRefEmail} errorMessage={errorMessage.email} isValid={isValid.email} onChange={handleChange} htmlFor="E-mail" type="email" placeholder="Digite seu E-mail" name="LoginEmail" required={true}/>
-                        <InputAndLabel inputRef={inputRefPassword} errorMessage={errorMessage.password} isValid={isValid.password} onChange={handleChange} htmlFor="Senha" type="password" placeholder="Digite sua senha" name="LoginPassword" required={true}/>
+                        <InputAndLabel marginLeftError={1.6} inputRef={inputRefEmail} errorMessage={errorMessage.email} isValid={isValid.email} onChange={handleChange} htmlFor="E-mail" type="email" placeholder="Digite seu E-mail" name="LoginEmail" required={true}/>
+                        <InputAndLabel marginLeftError={1.6} inputRef={inputRefPassword} errorMessage={errorMessage.password} isValid={isValid.password} onChange={handleChange} htmlFor="Senha" type="password" placeholder="Digite sua senha" name="LoginPassword" required={true}/>
                         <div>
                             <Checkbox label="Lembrar de mim"/>
                             <ForgotPassword href="#">Esqueci minha senha</ForgotPassword>

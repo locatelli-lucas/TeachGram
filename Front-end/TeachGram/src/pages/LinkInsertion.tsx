@@ -33,7 +33,7 @@ export function LinkInsertion() {
 
     const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLink(e.target.value);
-        setUser(prevUser => ({...prevUser, profileLink: e.target.value}))
+        setUser(prevUser => ({...prevUser, urlProfileLink: e.target.value}))
     }
 
     const handleErrorMessages = () => {
@@ -68,7 +68,7 @@ export function LinkInsertion() {
         <Main>
             <BackButton onClick={() => navigate("/register")}/>
             <TitleForm>
-                <TitleAndLogo/>
+                <TitleAndLogo marginTop={119}/>
                 <Form method={"post"} onSubmit={handleLink}>
                     <FormName marginBottom={7}>Insira o link da sua foto de perfil</FormName>
                     <Inputs marginLeft={1.4}>

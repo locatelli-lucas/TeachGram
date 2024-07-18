@@ -1,7 +1,7 @@
 import {BackButtonStyle} from "../styles/GeneralStyle.ts";
 
 interface Props {
-    onClick: () => void
+    onClick?: () => void
 }
 
 export function BackButton({onClick}: Props) {

@@ -1,35 +1,47 @@
-import {useState} from "react";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import HomeIcon from "../assets/icons/homeIcon.png"
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import GroupIcon from "../assets/icons/groupIcon.png"
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import SettingsIcon from "../assets/icons/settingsIcon.png"
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error
-import CreateIcon from "../assets/icons/createIcon.png"
+//import {ComponentType, useState} from "react";
 
 import {SideBarButton} from "./SideBarButton.tsx";
+import {GoGear, GoHome} from "react-icons/go";
+import {MdGroup} from "react-icons/md";
+import {useParams} from "react-router-dom";
+import {getUserByUserName} from "../services/user.service.ts";
+import {useEffect, useState} from "react";
+import {CiSquarePlus} from "react-icons/ci";
+import {SideBarStyle} from "../styles/GeneralStyle.ts";
+import {TitleAndLogo} from "./Title.tsx";
+
 
 export function SideBar() {
-    const [buttons, setButtons] = useState([
-        {feed: <SideBarButton img={HomeIcon} text={"Feed"} />},
-        {amigos: <SideBarButton img={GroupIcon} text={"Amigos"} />},
-        {amigos: <SideBarButton img={GroupIcon} text={"Amigos"} />},
-        {amigos: <SideBarButton img={SettingsIcon} text={"Configurações"} />},
-        {amigos: <SideBarButton img={CreateIcon} text={"Criar"} />},
-    ])
+    const {userName} = useParams();
+    const [userImg, setUserImg]= useState();
+
+    const getUserImg = async () => {
+        try {
+            console.log(userName)
+            return await getUserByUserName(userName!)
+                .then(response => setUserImg(response.profileLink))
+                .then(userImg => console.log(userImg))
+        } catch (error) {
+            console.log("Image not found")
+        }
+    }
+
+    useEffect(() => {
+        getUserImg()
+            .then(userName => console.log(userName))
+            .then(userImg => console.log(userImg))
+    }, [])
 
     return (
-        <div>
-            {buttons.map((button, index) => (
-                <div key={index}>
-                    {button.feed}
-                </div>
-            ))}
-        </div>
+        <>
+        <SideBarStyle>
+            <TitleAndLogo scale={0.6} marginTop={20}/>
+            <SideBarButton icon={GoHome} text={"Feed"}/>
+            <SideBarButton icon={MdGroup} text={"Seguidores"}/>
+            <SideBarButton src={userImg} text={"Perfil"}/>
+            <SideBarButton icon={GoGear} text={"Configurações"}/>
+            <SideBarButton icon={CiSquarePlus} text={"Criar"}/>
+        </SideBarStyle>
+        </>
     )
 }

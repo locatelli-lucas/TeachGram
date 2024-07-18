@@ -34,6 +34,27 @@ interface TitleFormProps {
     marginLeft?: number;
 }
 
+interface LogoTitleProps {
+    scale?: number;
+    marginTop?: number
+}
+
+interface SideBarButtonImgProps {
+    src?: string;
+}
+
+interface ProfileBioProps {
+    click?: boolean;
+}
+
+interface ProfileImageStyleProps {
+    src?: string;
+    height?: number;
+    width?: number;
+    marginTop?: number;
+    marginLeft?: number;
+}
+
 export const Main = styled.main`
     position: relative;
     width: 70vw;
@@ -74,10 +95,12 @@ export const Title = styled.h1`
     color: #303030;
 `;
 
-export const LogoTitle = styled.div`
+export const LogoTitle = styled.div<LogoTitleProps>`
     position: relative;
     display: flex;
-    top: 119px;
+    scale: ${props => `${props.scale}`};
+    top: ${props => `${props.marginTop}`}px;
+    left: 5px;
 `;
 
 export const Form = styled.form<FormProps>`
@@ -262,7 +285,189 @@ export const BackButtonStyle = styled.button`
     border: none;
     background: none;
     cursor: pointer;
-    top: 3em;
+    top: 2.8em;
     left: 3em;
+    z-index: 1;
+    transition: 400ms;
+    border-radius: 150px;
+    height: 3em;
+    
+    &:hover {
+        background-color: #E2E2E2;
+    }
 `;
 
+export const SideBarStyle = styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    left: 2em;
+    background-color: #FFF;
+    align-items: center;
+`;
+
+export const SideBarButtonStyle = styled.button`
+    position: relative;
+    width: 13.69em;
+    height: 4.56em;
+    border-radius: 15px;
+    border: 1px #E2E2E2 solid;
+    background: none;
+    color: #8E8E8E;
+    font-family: sans-serif;
+    font-size: 1.2em;
+    font-weight: 300;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 2em;
+    top: 2em;
+    left: 1em;
+`;
+
+export const SideBarIconStyle = styled.div`
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 10px;
+    bottom: 3px;
+    scale: 1.8;
+    margin-left: 1em;
+    color: #6A6F73;
+`;
+
+export const SideBarButtonImg = styled.div<SideBarButtonImgProps>`
+    position: relative;
+    display: flex;
+    border-radius: 150px;
+    left: 1em;
+    bottom: 3px;
+    height: 1.8em;
+    width: 1.8em;
+    border: 2px #E2E2E2 solid;
+    background-image: url(${props => `${props.src}`});
+    background-repeat: no-repeat;
+    background-size: cover;
+`;
+
+export const ProfileImageStyle = styled.div<ProfileImageStyleProps>`
+    position: relative;
+    width: 18em;
+    height: 18em;
+    border-radius: 50%;
+    border: #E2E2E2 solid 1px;
+    top: 2em;
+    left: 1em;
+    background-image: url(${props => `${props.src}`});
+    background-size: cover;
+
+`;
+
+export const ProfileBody = styled.body`
+    position: relative;
+    left: 5em;
+    font-family: sans-serif;
+    overflow-wrap: break-word;
+    overflow-y: scroll;
+    scrollbar-width: none;
+`
+
+export const ProfileBioImage = styled.div`
+    display: flex;
+    position: relative;
+    align-items: center;
+`
+
+export const ProfileBio = styled.div<ProfileBioProps>`
+    position: relative;
+    left: 3em;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    top: 1em;
+    color: #303030;
+    font-size: 1.3em;
+    
+    & p {
+        overflow-wrap: break-word;
+        color: #6A6F73;
+    }
+    
+    & button {
+        position: relative;
+        height: 2.6em;
+        width: 5.7em;
+        border-radius: 8px;
+        font-family: sans-serif;
+        font-size: 0.7em;
+        box-shadow: 5px 5px 5px #DCDCDC;
+        top: 20px;
+        cursor: pointer;
+        border: ${props => `${props.click ? "1px solid #666666" : "none"}`};
+        background: ${props => `${props.click ? "none" : '#F37671'}`};
+        color: ${props => `${props.click ? "#666666" : '#FFFFFF'}`};
+    }
+`
+
+export const ProfileTitle = styled.h3`
+    position: relative;
+    font-family: sans-serif;
+    font-size: 1.5em;
+    color: #303030;
+`
+
+export const ProfilePostsFriends = styled.div`
+    display: flex;
+    position: relative;
+    left: 2em;
+    top: 3em;
+    color: #303030;
+    justify-content: center;
+    margin: 2em 0 0.5em 0;
+    
+    
+    & div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+    }
+    
+    & b {
+        position: relative;
+        font-size: 1.4em;
+        right: 5px;
+    }
+    
+    & span {
+        position: relative;
+        font-size: 1.4em;
+        bottom: 10px;
+        color: #6A6F73;
+        
+    }
+    
+    & hr {
+        position: relative;
+        top: 15px;
+        width: 2px;
+        height: 1.9em;
+        margin: 0 1em;
+        border: 1px solid #DBDADA;
+    }
+`
+
+export const ProfilePosts = styled.div`
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    top: 5em;
+`
+
+export const PostImage = styled.img`
+    height: 19.4em;
+    width: 19.4em;
+    border: #FFFFFF solid 1px;
+`

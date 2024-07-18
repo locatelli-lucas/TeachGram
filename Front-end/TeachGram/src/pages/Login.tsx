@@ -107,7 +107,7 @@ export function Login() {
     return (
         <Main>
             <TitleForm>
-                <TitleAndLogo />
+                <TitleAndLogo marginTop={119}/>
                 <Form method="get" onSubmit={handleLogin}>
                     <FormName marginBottom={2}>Faça seu login</FormName>
                     <Inputs>

@@ -195,7 +195,7 @@ export function Register() {
     return (
         <Main>
             <TitleForm marginLeft={4.5}>
-                <TitleAndLogo />
+                <TitleAndLogo marginTop={119}/>
                 <Body>
                     <Form height={50} gap={1.5} onSubmit={handleFormSubmit}>
                         <FormName marginBottom={0.5}>Crie sua conta</FormName>

@@ -4,6 +4,8 @@ import {Register} from "./pages/Register.tsx";
 
 import './styles/reset.css'
 import {LinkInsertion} from "./pages/LinkInsertion.tsx";
+import {Profile} from "./pages/Profile.tsx";
+import {UserProfile} from "./pages/UserProfile.tsx";
 
 function App() {
   return (
@@ -12,7 +14,8 @@ function App() {
         <Route path="/" element = {<Login />} />
         <Route path="/register" element = {<Register />} />
         <Route path="/register/:userName/link" element={<LinkInsertion />} />
-        <Route path="/user/:userName"/>
+        <Route path="/:userName" element={<Profile />}/>
+        <Route path="/:userName/in/:userProfile" element={<UserProfile />}/>
       </Routes>
     </BrowserRouter>
     

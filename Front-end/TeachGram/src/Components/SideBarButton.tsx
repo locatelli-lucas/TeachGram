@@ -1,15 +1,17 @@
 import {ComponentType} from "react";
+import {SideBarButtonImg, SideBarButtonStyle, SideBarIconStyle} from "../styles/GeneralStyle.ts";
 
 interface Props {
-    img: ComponentType,
+    src?: string,
+    icon?: ComponentType,
     text: string
 }
 
-export function SideBarButton({img: Img, text}: Props) {
+export function SideBarButton({src, icon: Icon, text}: Props) {
     return (
-        <button>
-            <Img />
+        <SideBarButtonStyle>
+            {Icon ? <SideBarIconStyle><Icon/></SideBarIconStyle> : <SideBarButtonImg src={src}></SideBarButtonImg>}
             {text}
-        </button>
+        </SideBarButtonStyle>
     )
 }

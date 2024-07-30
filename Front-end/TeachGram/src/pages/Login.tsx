@@ -1,7 +1,8 @@
 import {
+    Body,
     ForgotPassword,
     Form, FormName, Inputs,
-    Main, RegisterLink, RegisterStyle, TitleForm,
+    RegisterLink, RegisterStyle, TitleForm,
 } from "../styles/GeneralStyle.ts"
 import { Checkbox } from "../Components/Checkbox";
 import {TitleAndLogo} from "../Components/Title.tsx";
@@ -105,7 +106,7 @@ export function Login() {
     }
 
     return (
-        <Main>
+        <Body>
             <TitleForm>
                 <TitleAndLogo marginTop={119}/>
                 <Form method="get" onSubmit={handleLogin}>
@@ -126,6 +127,6 @@ export function Login() {
                 </RegisterStyle>
             </TitleForm>
             <FirstImage />
-        </Main>
+        </Body>
     )
 }

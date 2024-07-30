@@ -1,5 +1,6 @@
 import {API} from "./api.ts";
-import {Post} from "./post.service.ts";
+import {deleteAllPostByUserId, Post} from "./post.service.ts";
+import {deleteAllFollowsByUserName, Follow} from "./follow.service.ts";
 
 export type User = {
     id: number;
@@ -11,10 +12,7 @@ export type User = {
     password: string;
     profileLink: string;
     posts: Post[]
-    follow: {
-        followers: User[];
-        following: User[];
-    }
+    follows: Follow[]
 };
 
 export type UserDTO = {
@@ -90,45 +88,18 @@ export async function patchUser(userName: string, newData: UserDTO) {
     }
 }
 
-export async function followUser(userName: string , userToFollow: string ) {
+export async function deleteUserByUserName(userName: string) {
     try {
-        const userNameId = await getUserId(userName);
-        const userToFollowId = await getUserId(userToFollow);
-        console.log(userNameId, userToFollowId)
-        return await API.post(`/users/${userNameId}/follow/${userToFollowId}`)
-    }catch (error) {
-        console.error("Error: Could not follow");
-    }
-}
+        const id = await getUserId(userName)
 
-export async function unfollowUser(userName: string , userToFollow: string ) {
-    try {
-        const userNameId = await getUserId(userName);
-        const userToFollowId = await getUserId(userToFollow);
-        console.log(userNameId, userToFollowId)
-        return await API.delete(`/users/${userNameId}/unfollow/${userToFollowId}`)
-    }catch (error) {
-        console.error("Error: Could not unfollow");
-    }
-}
-
-export async function getFollowers(userName: string): Promise<void | User[]>{
-    try {
-        const userId = await getUserId(userName);
-        return await API.get(`/users/${userId}/followers`)
-            .then(response => console.log(response))
+        return await deleteAllFollowsByUserName(userName)
+            .then(async () => await deleteAllPostByUserId(id))
+            .then(async () => await API.delete(`/users/${id}`))
+            .then(response => console.log("Sucess: ", response.data))
     } catch (error) {
-        console.error("Error: Could not find followers");
-        return [];
+        console.error("Error: Couldn't find the user " + userName);
     }
 }
 
-export async function getFollows(userName: string): Promise<void | User[]> {
-    try {
-        const userId = await getUserId(userName);
-        return await API.get(`/users/${userId}/follows`)
-            .then(response => console.log(response.data))
-    } catch (error) {
-        console.error("Error: Could not find follows");
-    }
-}
+
+

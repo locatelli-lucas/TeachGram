@@ -1,24 +1,29 @@
 import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {followUser, getUserByUserName, unfollowUser, User} from "../services/user.service.ts";
+import {useContext, useEffect, useState} from "react";
+import { getUserByUserName, User} from "../services/user.service.ts";
 import {
-    Main, PostImage,
+    Body,
+    PostImage,
     ProfileBio,
     ProfileBioImage,
-    ProfileBody,
-    ProfileImageStyle, ProfilePosts,
+    ProfileImageStyle, ProfileMain, ProfilePosts,
     ProfileTitle
 } from "../styles/GeneralStyle.ts";
 import {BackButton} from "../Components/BackButton.tsx";
 import {SideBar} from "../Components/SideBar.tsx";
 import {UserStats} from "../Components/UserStats.tsx";
+import {Follow, followUser, getFollows, unfollowUser} from "../services/follow.service.ts";
+import {followContext} from "../contexts/followsContext.ts";
+import {Overlay} from "../Components/Overlay.tsx";
 
 export function UserProfile() {
     const navigate = useNavigate();
     const {userName, userProfile} = useParams();
-    const [user, setUser] = useState<User>();
+    const [, setUser] = useState<User>();
     const [userVisitor, setUserVisitor] = useState<User>();
     const [clicked, setClicked] = useState(false);
+    const [, setFollows] = useState<Follow[]>([])
+    const {opacity} = useContext(followContext);
 
     const getUser = async(username: string) => {
         try {
@@ -28,12 +33,32 @@ export function UserProfile() {
         }
     }
 
+    async function handleFollows() {
+        try {
+            return await getFollows(userName!)
+        } catch (error) {
+            console.log("User not found")
+            return []
+        }
+    }
+
     useEffect(() => {
-        getUser(userName!).then((response) => setUser(response))
-        console.log(user)
-        getUser(userProfile!).then((response) => setUserVisitor(response))
-        console.log(userVisitor)
-    }, []);
+        async function fetchData() {
+            const userResponse = await getUser(userName!);
+            const userVisitorResponse = await getUser(userProfile!);
+            const followsResponse = await handleFollows();
+
+            setUser(userResponse);
+            setUserVisitor(userVisitorResponse);
+            setFollows(followsResponse);
+
+            if (userResponse && userVisitorResponse) {
+                const checkButton = followsResponse.find(element => element.follower.id === userResponse.id && element.user.id === userVisitorResponse.id);
+                setClicked(!!checkButton);
+            }
+        }
+        fetchData();
+    }, [userName, userProfile, opacity]);
 
     const handleFollowButtonClick = async () => {
         if(!clicked) {
@@ -47,21 +72,23 @@ export function UserProfile() {
     }
 
     return (
-        <Main>
+        <>
+        {opacity && <Overlay followsWindow={opacity}/>}
+        <Body>
             <div>
                 <BackButton onClick={() => navigate("#")}/>
                 <SideBar/>
             </div>
-            <ProfileBody>
+            <ProfileMain>
                 <ProfileBioImage>
-                    <ProfileImageStyle src={userVisitor?.profileLink}></ProfileImageStyle>
-                    <ProfileBio click={clicked} onClick={() => handleFollowButtonClick()}>
+                    <ProfileImageStyle width={25} height={27} src={userVisitor?.profileLink}></ProfileImageStyle>
+                    <ProfileBio click={clicked}>
                         <ProfileTitle>{userVisitor?.name}</ProfileTitle>
                         <p>{userVisitor?.bio}</p>
-                        <button>Adicionar</button>
+                        <button onClick={() => handleFollowButtonClick()}>{clicked ? "Seguindo ✔" : "Seguir"}</button>
                     </ProfileBio>
                 </ProfileBioImage>
-                {userVisitor !== undefined && <UserStats user={userVisitor} />}
+                {userVisitor !== undefined && <UserStats user={userVisitor} click={clicked}/>}
                 <ProfilePosts>
                     {userVisitor?.posts.map((post, index) => {
                         return (
@@ -73,7 +100,8 @@ export function UserProfile() {
                         );
                     })}
                 </ProfilePosts>
-            </ProfileBody>
-        </Main>
+            </ProfileMain>
+        </Body>
+        </>
     )
 }

@@ -1,45 +1,55 @@
 import {SideBar} from "../Components/SideBar.tsx";
 import {
-    Main, PostImage,
+    Body,
+    PostImage,
     ProfileBio,
     ProfileBioImage,
-    ProfileBody,
-    ProfileImageStyle, ProfilePosts,
+    ProfileImageStyle, ProfileMain, ProfilePosts,
     ProfileTitle
 } from "../styles/GeneralStyle.ts";
 import {BackButton} from "../Components/BackButton.tsx";
 import {useNavigate, useParams} from "react-router-dom";
 import {getUserByUserName, User} from "../services/user.service.ts";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {UserStats} from "../Components/UserStats.tsx";
+import {Overlay} from "../Components/Overlay.tsx";
+import {followContext} from "../contexts/followsContext.ts";
 
 export function Profile() {
     const navigate = useNavigate();
-    const {userName} = useParams()
+    const {userName} = useParams();
+    const {opacity} = useContext(followContext);
     const [user, setUser] = useState<User>();
 
     const getUser = async() => {
         try {
             return await getUserByUserName(userName!)
-                .then((response) => setUser(response))
+                .then((response) => {
+                    setUser(response)
+                    console.log((response))
+                })
         } catch (error) {
             console.log("User not found")
         }
     }
 
     useEffect(() => {
-        getUser().then(r => console.log(r))
+        getUser()
+        console.log(user)
+        console.log(opacity)
     }, []);
 
     return (
-        <Main>
+        <>
+        {opacity && <Overlay followsWindow={opacity}/>}
+        <Body>
             <div>
                 <BackButton onClick={() => navigate("#")}/>
                 <SideBar/>
             </div>
-            <ProfileBody>
+            <ProfileMain>
                 <ProfileBioImage>
-                    <ProfileImageStyle src={user?.profileLink}></ProfileImageStyle>
+                    <ProfileImageStyle width={25} height={27} src={user?.profileLink}></ProfileImageStyle>
                     <ProfileBio>
                         <ProfileTitle>{user?.name}</ProfileTitle>
                         <p>{user?.bio}</p>
@@ -57,7 +67,8 @@ export function Profile() {
                         );
                     })}
                 </ProfilePosts>
-            </ProfileBody>
-        </Main>
+            </ProfileMain>
+        </Body>
+        </>
     )
 }

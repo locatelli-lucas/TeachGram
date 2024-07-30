@@ -1,6 +1,7 @@
 import {
+    Body,
     Form, FormName, Inputs,
-    Main, TitleForm,
+    TitleForm,
 } from "../styles/GeneralStyle.ts"
 
 import {TitleAndLogo} from "../Components/Title.tsx";
@@ -65,7 +66,7 @@ export function LinkInsertion() {
     }
 
     return (
-        <Main>
+        <Body>
             <BackButton onClick={() => navigate("/register")}/>
             <TitleForm>
                 <TitleAndLogo marginTop={119}/>
@@ -80,6 +81,6 @@ export function LinkInsertion() {
                 </Form>
             </TitleForm>
             <FirstImage/>
-        </Main>
+        </Body>
     )
 }

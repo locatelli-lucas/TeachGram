@@ -1,7 +1,7 @@
 import {
-    Body,
+    Body, BodyRegister,
     Form, FormName, Inputs,
-    Main, RegisterLink, RegisterStyle,
+    RegisterLink, RegisterStyle,
     TitleForm
 } from "../styles/GeneralStyle.ts";
 import {TitleAndLogo} from "../Components/Title.tsx";
@@ -50,7 +50,9 @@ export function Register() {
         bio: "",
         phone: "",
         password: "",
-        profileLink: ""
+        profileLink: "",
+        posts: [],
+        follows: []
     });
 
 
@@ -193,10 +195,10 @@ export function Register() {
     }
 
     return (
-        <Main>
+        <Body>
             <TitleForm marginLeft={4.5}>
                 <TitleAndLogo marginTop={119}/>
-                <Body>
+                <BodyRegister>
                     <Form height={50} gap={1.5} onSubmit={handleFormSubmit}>
                         <FormName marginBottom={0.5}>Crie sua conta</FormName>
                         <Inputs>
@@ -213,9 +215,9 @@ export function Register() {
                             </RegisterStyle>
                         </Inputs>
                     </Form>
-                </Body>
+                </BodyRegister>
             </TitleForm>
             <FirstImage />
-        </Main>
+        </Body>
     )
 }

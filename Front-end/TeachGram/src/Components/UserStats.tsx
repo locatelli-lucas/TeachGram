@@ -1,35 +1,44 @@
 import {ProfilePostsFriends} from "../styles/GeneralStyle.ts";
-import {getFollowers, getFollows, User} from "../services/user.service.ts";
+import {User} from "../services/user.service.ts";
 import {useEffect, useState} from "react";
+import {FollowerDTO, getAllUserFollowers, getAllUserFollows} from "../services/follow.service.ts";
 
 interface Props {
     user: User
+    click?: boolean
 }
 
-export function UserStats({user}: Props) {
-    const [followers, setFollowers] = useState<void | User[]>([]);
-    const [followings, setFollowings] = useState<void | User[]>([]);
+export function UserStats({user, click}: Props) {
+    const [followers, setFollowers] = useState<FollowerDTO[]>([])
+    const [follows, setFollows] = useState<FollowerDTO[]>([])
 
-    const handleFollowers = async() => {
-        return await getFollowers(user.userName)
+    async function handleFollowers() {
+        try {
+            return await getAllUserFollowers(user.userName)
+                .then((response) => {
+                    setFollowers(response)
+                });
+        } catch (error) {
+            console.log("User not found")
+        }
     }
 
-    const handleFollowings = async() => {
-        return await getFollows(user.userName)
+    async function handleFollows() {
+        try {
+            return await getAllUserFollows(user.userName)
+                .then((response) => {
+                    setFollows(response)
+                });
+        } catch (error) {
+            console.log("User not found")
+            return []
+        }
     }
 
     useEffect(() => {
-        handleFollowers().then(response => {
-            setFollowers(response)
-            console.log(response)
-        })
-        handleFollowings().then(response => {
-            setFollowings(response)
-            console.log(response)
-        })
-        console.log(followers)
-        console.log(followings)
-    }, []);
+        handleFollowers()
+        handleFollows()
+    }, [click]);
 
     return (
         <ProfilePostsFriends>
@@ -41,14 +50,14 @@ export function UserStats({user}: Props) {
             </div>
             <hr/>
             <div>
-                <b>{followers?.length}</b>
+                <b>{followers.length}</b>
                 <span>
                     Seguidores
                 </span>
             </div>
             <hr/>
             <div>
-                <b>{followings?.length}</b>
+                <b>{follows.length}</b>
                 <span>
                     Seguindo
                 </span>

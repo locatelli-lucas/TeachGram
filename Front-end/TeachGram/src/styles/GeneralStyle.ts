@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import './fonts.css';
 
+interface SideArtProps {
+    inverter: boolean
+}
+
 interface FormProps {
     height?: number;
     width?: string;
@@ -28,6 +32,10 @@ interface InputsProps {
 
 interface ErrorProps {
     marginLeft?: number;
+    marginTop?: number;
+    position?: string;
+    width?: number;
+    gap?: number;
 }
 
 interface TitleFormProps {
@@ -53,9 +61,44 @@ interface ProfileImageStyleProps {
     width?: number;
     marginTop?: number;
     marginLeft?: number;
+    transform?: string;
 }
 
-export const Main = styled.main`
+interface ConfigPageStyleProps {
+    top?: number;
+    width?: number;
+}
+
+interface InputConfigStyleProps {
+    background?: string;
+    width?: number;
+    color?: string;
+    border?: string;
+    borderRadius?: number;
+    fontWeight?: string;
+    button?: boolean;
+    isValid?: boolean;
+}
+
+interface ProfileConfigButtonStyleProps {
+    backgroundColor: string;
+    color: string;
+    border: string;
+}
+
+interface OpacityDivProps {
+    opacity?: boolean;
+}
+
+interface FollowWindowButtonProps {
+    clicked: boolean
+}
+
+interface SideArtCompleteStyleProps {
+    left?: number
+}
+
+export const Body = styled.body`
     position: relative;
     width: 70vw;
     height: 100vh;
@@ -63,7 +106,7 @@ export const Main = styled.main`
     margin: 0 auto;
 `;
 
-export const Body = styled.body`
+export const BodyRegister = styled.body`
     height: 100vh;
     position: relative;
     display: flex;
@@ -264,20 +307,21 @@ export const LittleCircle = styled.div`
     border-radius: 50%;
     background: #F37671;
     top: 5px;
-`;
+    display: flex;
+`
 
 export const ErrorStyle = styled.div<ErrorProps>`
     width: 18.5vw;
-    height: 10vh;
     position: absolute;
     display: flex;
     justify-content: end;
-    top: 4.2em;
     margin-left: ${props => `${props.marginLeft}`}em;
+    margin-top: ${props => `${props.marginTop}`}em;
     color: #F37671;
     font-weight: bold;
     gap: 5px;
     transform: scale(0.7);
+    
 `
 
 export const BackButtonStyle = styled.button`
@@ -354,18 +398,19 @@ export const SideBarButtonImg = styled.div<SideBarButtonImgProps>`
 
 export const ProfileImageStyle = styled.div<ProfileImageStyleProps>`
     position: relative;
-    width: 18em;
-    height: 18em;
+    width: ${props => `${props.width}%`};
+    height: ${props => `${props.height}vh`};
     border-radius: 50%;
     border: #E2E2E2 solid 1px;
-    top: 2em;
+    top: ${props => `${props.marginTop}vh`};
     left: 1em;
     background-image: url(${props => `${props.src}`});
+    background-repeat: no-repeat;
     background-size: cover;
 
 `;
 
-export const ProfileBody = styled.body`
+export const ProfileMain = styled.main`
     position: relative;
     left: 5em;
     font-family: sans-serif;
@@ -378,6 +423,7 @@ export const ProfileBioImage = styled.div`
     display: flex;
     position: relative;
     align-items: center;
+    top: 3em;
 `
 
 export const ProfileBio = styled.div<ProfileBioProps>`
@@ -389,6 +435,7 @@ export const ProfileBio = styled.div<ProfileBioProps>`
     top: 1em;
     color: #303030;
     font-size: 1.3em;
+    height: 25vh;
     
     & p {
         overflow-wrap: break-word;
@@ -398,7 +445,7 @@ export const ProfileBio = styled.div<ProfileBioProps>`
     & button {
         position: relative;
         height: 2.6em;
-        width: 5.7em;
+        width: 6.7em;
         border-radius: 8px;
         font-family: sans-serif;
         font-size: 0.7em;
@@ -409,6 +456,7 @@ export const ProfileBio = styled.div<ProfileBioProps>`
         background: ${props => `${props.click ? "none" : '#F37671'}`};
         color: ${props => `${props.click ? "#666666" : '#FFFFFF'}`};
     }
+    
 `
 
 export const ProfileTitle = styled.h3`
@@ -422,7 +470,7 @@ export const ProfilePostsFriends = styled.div`
     display: flex;
     position: relative;
     left: 2em;
-    top: 3em;
+    top: 6em;
     color: #303030;
     justify-content: center;
     margin: 2em 0 0.5em 0;
@@ -463,7 +511,7 @@ export const ProfilePosts = styled.div`
     display: flex;
     position: relative;
     flex-wrap: wrap;
-    top: 5em;
+    top: 8em;
 `
 
 export const PostImage = styled.img`
@@ -471,3 +519,281 @@ export const PostImage = styled.img`
     width: 19.4em;
     border: #FFFFFF solid 1px;
 `
+
+export const ConfigPageStyle = styled.body<ConfigPageStyleProps>`
+    position: relative;
+    width: 70vw;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    font-family: sans-serif;
+    
+    & div {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    & span {
+        color: #303030;
+        font-size: 1.1em;
+        
+    }
+    
+    & button {
+        position: relative;
+        width: 32vh;
+        height: 8vh;
+        margin-bottom: 1em;
+        border: none;
+        border-radius: 15px;
+        background: none;
+        color: #303030;
+        font-size: 1.2em;
+        top: 13em;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+`
+
+export const ConfigAccountPageStyle = styled.body<ConfigPageStyleProps>`
+    position: relative;
+    width: 70vw;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    font-family: sans-serif;
+    
+    & h2 {
+        color: #303030;
+        margin-bottom: 2em;
+        position: relative;
+        top: ${props => `${props.top}em`};
+    }
+    
+    & form {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        top: 11em;
+        gap: 1em;
+        width: ${props => `${props.width}vw`};
+    }
+    
+`
+
+export const ProfileConfigButtonStyle = styled.button<ProfileConfigButtonStyleProps>`
+    background: ${props => `${props.backgroundColor}`};
+    border: ${props => `${props.border}`};
+    color: ${props => `${props.color}`};
+    border-radius: 8px;
+    transform: scale(1.1);
+    cursor: pointer;
+    margin-right: 1.5em;
+`
+
+export const SideArtStyle = styled.div<SideArtProps>`
+    height: 9.7em;
+    width: 9.7em;
+    background: #fef2f1;
+    border: #f37671 1px solid;
+    position: relative;
+    border-top-left-radius: 100px;
+    transform: ${props => `${props.inverter ? "scaleX(-1)" : "scaleX(1)"}`};
+    right: ${props => `${props.inverter ? "0" : "9.7"}em`};
+    z-index: 0;
+`
+
+export const SideArtCompleteStyle = styled.div<SideArtCompleteStyleProps>`
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    left: ${props => `${props.left}em`};
+`
+
+export const InputConfigStyle = styled.input<InputConfigStyleProps>`
+    border: none;
+    border-bottom: 1px solid #E6E6E6;
+    position: relative;
+    bottom: 8px;
+    background: ${props => `${props.button ? "#f37671" : null}`};
+    border: ${props => `${props.button ? "none" : null}`};
+    border-bottom: ${props => `${props.button ? "none" : "1px solid #E6E6E6"}`};
+    border-radius: ${props => `${props.button ? "8" : null}px`};
+    width: ${props => `${props.button ? "4vw" : null}`};
+    height: ${props => `${props.button ? "3.3vh" : null}`};
+    color: ${props => `${props.button ? "#FFFFFF" : null}`};
+    cursor: ${props => `${props.button ? "pointer" : null}`};
+    border-bottom-color: ${props => `${props.isValid ? "" : "#F37671"}`};
+    
+    &:focus {
+        box-shadow: 0 0 0 0;
+        outline: 0;
+    }
+    
+`
+
+export const DeleteButtonStyle = styled.button`
+    border: none;
+    background: none;
+    width: 5vw;
+    
+    & span {
+        color: #F37671;
+        text-decoration-line: underline;
+    }
+`
+
+export const OpacityDiv = styled.div<OpacityDivProps>`
+    background-color: rgba(0, 0, 0, 0.35);
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+
+export const DeletePopUpStyle = styled.div`
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+
+    height: 32vh;
+    width: 30vw;
+    border-radius: 34px;
+    background: #FFFFFF;
+    z-index: 10;
+    font-family: sans-serif;
+    color: #303030;
+    
+    & h2 {
+        position: relative;
+        margin: 1.5em 0;
+        left: 1.5em;
+    }
+    
+    & hr {
+        height: 2px;
+        width: 100%;
+        background-color: #CECECE;
+        border: none;
+    }
+    
+    & span {
+        position: relative;
+        margin: 1.8em 0;
+        left: 3em;
+    }
+    
+    & div {
+        display: flex;
+        width: 100%;
+        position: relative;
+        left: 12em;
+        top: 1.5em;
+        gap: 15px;
+    }
+`
+
+export const FollowsWindowStyle = styled.div`
+    position: absolute;
+    height: 60vh;
+    width: 27vw;
+    border-radius: 34px;
+    border: none;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    padding: 3em 4em;
+    overflow-y: auto;
+    scrollbar-width: none;
+    
+    
+    & hr {
+        position: relative;
+        width: 100%;
+        margin: 0 auto;
+        border: 1px solid #CECECE;
+    }
+    
+    & svg {
+        position: absolute;
+        right: 2.5em;
+        top: 1.5em;
+        border-radius: 35px;
+        cursor: pointer;
+    }
+    
+    & svg:hover {
+        background: #dcdcdc;
+    }
+`
+
+export const FollowStyle = styled.div`
+    position: relative;
+    top: 2em;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: sans-serif;
+    color: #303030;
+    transition: 300ms;
+    height: 8vh;
+    z-index: 0;
+
+    & span {
+        color: #A09F9F;
+        font-size: 0.9em;
+        position: relative;
+        left: 2.3em;
+        cursor: pointer;
+    }
+
+    & h3 {
+        font-size: 1em;
+        position: relative;
+        left: 2em;
+        cursor: pointer;
+    }
+
+    & button {
+        transform: scale(0.9);
+        position: absolute;
+        left: 17em;
+        width: 6vw;
+        top: 1.6em;
+    }
+
+    &:hover {
+        background: #dcdcdc;
+    }
+`
+
+export const FollowWindowButtonsStyle = styled.button<FollowWindowButtonProps>`
+    color: #303030;
+    background: ${props => `${props.clicked ? "#E2E2E2" : "none"}`};
+    border: none;
+    font-family: sans-serif;
+    font-size: 1.5em;
+    font-weight: bold;
+    width: 50%;
+    height: 7vh;
+    transition: 300ms;
+    z-index: 10;
+
+    &:hover {
+        background: #f3ecec;
+    }
+`
+
+export const PostStyle = styled.div `
+    height: 60vh;
+    width: 29.7vw;
+    border: 1px solid black;
+`
+
+

@@ -1,12 +1,12 @@
 import {ProfileConfigButton} from "./ProfileConfigButton.tsx";
 import {DeletePopUpStyle} from "../styles/GeneralStyle.ts";
-import {windowContext} from "../contexts/windowContext.ts";
+import {deleteContext} from "../contexts/deleteContext.ts";
 import {useContext} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {deleteUserByUserName} from "../services/user.service.ts";
 
 export function DeleteWindow() {
-    const {setOpacity} = useContext(windowContext);
+    const {setOpacity} = useContext(deleteContext);
     const {userName} = useParams();
     const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ export function DeleteWindow() {
 
     return (
         <DeletePopUpStyle className="delete-popup">
-            <h2>Exluir conta</h2>
+            <h2>Excluir conta</h2>
             <hr/>
             <span>Todos os seus dados serão excluídos.</span>
             <div className={"deletePopUpButtons"}>

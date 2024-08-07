@@ -94,7 +94,7 @@ export function UserProfile() {
                         return (
                             <PostImage
                                 key={index}
-                                src={post.photoLink}
+                                src={post.photoLink!}
                                 alt={`Post ${index + 1} by ${userVisitor.name}`}
                             />
                         );

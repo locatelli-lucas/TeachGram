@@ -61,6 +61,7 @@ interface ProfileImageStyleProps {
     width?: number;
     marginTop?: number;
     marginLeft?: number;
+    marginRight?: number;
     transform?: string;
 }
 
@@ -96,6 +97,15 @@ interface FollowWindowButtonProps {
 
 interface SideArtCompleteStyleProps {
     left?: number
+}
+
+interface LikeIconProps {
+    clicked?: boolean
+}
+
+interface CloseIconProps {
+    bottom?: number;
+    right?: number;
 }
 
 export const Body = styled.body`
@@ -403,6 +413,7 @@ export const ProfileImageStyle = styled.div<ProfileImageStyleProps>`
     border-radius: 50%;
     border: #E2E2E2 solid 1px;
     top: ${props => `${props.marginTop}vh`};
+    margin-right: ${props => `${props.marginRight}em`};
     left: 1em;
     background-image: url(${props => `${props.src}`});
     background-repeat: no-repeat;
@@ -793,7 +804,294 @@ export const FollowWindowButtonsStyle = styled.button<FollowWindowButtonProps>`
 export const PostStyle = styled.div `
     height: 60vh;
     width: 29.7vw;
-    border: 1px solid black;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 25px;
+    border: 1px solid #dcdcdc;
+    border-radius: 18px;
+    margin-bottom: 2em;
+    color: #8E8E8E;
+    gap: 1em;
+    
+    & p {
+        bottom: 1em;
+    }
+
+    & img {
+        height: 31vh;
+        width: 26.5vw;
+        border-radius: 9px;
+        position: relative;
+    }
+
+    & div {
+        display: flex;
+    }
+    
+    & span {
+        position: relative;
+        left: 0.4em;
+        top: 0.2em;
+    }
 `
 
+export const PostListStyle = styled.div`
+    position: relative;
+    top: 7vh;
+`
 
+export const PostHeaderStyle = styled.body`
+    position: relative;
+    display: flex;
+    bottom: 0.5em;
+    right: 1em;
+    color: #8E8E8E;
+    
+    & div {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        right: 0.5em;
+        justify-content: center;
+    }
+    
+    & p {
+        font-size: 1.5em;
+        font-family: serif;
+    }
+    
+    & span {
+        position: relative;
+        right: 1em;
+    }
+`
+
+export const LikeIconStyle = styled.div<LikeIconProps>`
+    position: relative;
+    left: 0.5em;
+    display: flex;
+    align-items: center;
+    
+    & span {
+       position: relative;
+       left: 1em;
+       bottom: 2em;
+    }
+    
+    & div {
+        transform: scale(1.7);
+        transition: 500ms;
+        color: #F37671;
+        top: 1.5em;
+    }
+    
+    & div:hover {
+        transform: scale(1.9);
+        color: #efa3a0;
+    }
+`
+
+export const NewPostLinkInsertionWindowStyle = styled.body`
+    font-family: sans-serif;
+    height: 24.67vh;
+    width: 28.1vw;
+    background: #FFFFFF;
+    border-radius: 34px;
+    padding: 2em 4em;
+    
+    & h2 {
+        color: #303030;
+        margin-bottom: 3em;
+    }
+    
+    & input {
+        width: 19.5vw;
+        height: 3.45vh;
+        border-radius: 8px;
+        border: 1px solid #F37671;
+        color: #8E8E8E;
+        padding-left: 1em;
+    }
+    
+    & input:focus {
+        box-shadow: 0 0 0 0;
+        outline: 0;
+    }
+    
+    & button {
+        height: 3.5vh;
+        width: 4vw;
+        position: absolute;
+        right: 2em;
+        top: 52.8vh;
+        left: 56vw;
+        border-radius: 8px;
+        border: none;
+        background: #F37671;
+        cursor: pointer;
+        transition: 600ms;
+    }
+    
+    & button:hover {
+        padding-left: 3em;
+    }
+`
+
+export const NextIcon = styled.div`
+    color: #FFFFFF;
+    transform: scale(1.2);
+    position: relative;
+    left: 5px;
+`
+
+export const CloseIcon = styled.div<CloseIconProps>`
+    position: absolute;
+    color: #F37671;
+    transform: scale(1.8);
+    bottom: ${props => `${props.bottom}em`};
+    right: ${props => `${props.right}em`};
+    cursor: pointer;
+    transition: 300ms;
+    border-radius: 34px;
+    z-index: 1;
+    
+    &:hover {
+        background: #dcdcdc;
+    }
+`
+
+export const NewPostPhotoStyle = styled.body`
+    width: 28vw;
+    height: 59.7vh;
+    background: #FFFFFF;
+    border-radius: 34px;
+    padding: 2em 4em 2em 4.5em;
+    font-family: sans-serif;
+    
+    & div {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1.8em;
+    }
+    
+    & img {
+        height: 42vh;
+        width: 20vw;
+    }
+    
+    & h2 {
+        position: relative;
+        color: #303030;
+    }
+    
+    & span {
+        cursor: pointer;
+        position: relative;
+        top: 0.5em;
+        color: #F37671;
+        font-weight: bold;
+        text-decoration-line: underline;
+        z-index: 1;
+    }
+`
+export const SharePostStyle = styled.body`
+    width: 28vw;
+    height: 70vh;
+    background: #FFFFFF;
+    border-radius: 34px;
+    padding: 2em 4em 2em 4.5em;
+    font-family: sans-serif;
+
+    & div {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1.8em;
+    }
+
+    & img {
+        height: 42vh;
+        width: 20vw;
+    }
+
+    & h2 {
+        position: relative;
+        color: #303030;
+    }
+
+    & span {
+        cursor: pointer;
+        position: relative;
+        top: 0.5em;
+        color: #F37671;
+        font-weight: bold;
+        text-decoration-line: underline;
+        z-index: 1;
+    }
+    
+    & input {
+        position: relative;
+        top: 2em;
+        width: 20vw;
+        border: none;
+        color: #8E8E8E;
+    }
+    
+    & input:focus {
+        box-shadow: 0 0 0 0;
+        outline: 0;
+    }
+`
+
+export const DotsIcon = styled.div`
+    position: absolute;
+    left: 17em;
+    top: 1em;
+    height: 5vh;
+    transform: scale(1.4);
+    cursor: pointer;
+`
+export const PostConfigWindowStyle = styled.body`
+    position: absolute;
+    background: #FFFFFF;
+    border-radius: 8px;
+    border: 1px solid #dcdcdc;
+    width: 5vw;
+    height: 8vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    right: 2em;
+    top: 1.2em;
+    transition: 300ms;
+    
+    & button {
+        background: none;
+        border: none;
+        color: #F37671;
+        cursor: pointer;
+    }
+
+    & button:hover {
+        color: #d38c8a;
+    }
+`
+
+export const PostDeleteStyle = styled.body`
+    background: #FFFFFF;
+    height: 23vh;
+    width: 24.5vw;
+    border-radius: 34px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    gap: 2em;
+    
+    & button {
+        position: relative;
+        margin: 0 1em
+    }
+`

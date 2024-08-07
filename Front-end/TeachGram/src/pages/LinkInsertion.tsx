@@ -19,13 +19,13 @@ export function LinkInsertion() {
     const [errorMessage, setErrorMessage] = useState("");
     const [link, setLink] = useState("");
     const [user, setUser] = useState<UserDTO>({
-        name: null,
-        userName: null,
-        bio: null,
-        phone: null,
-        email: null,
-        password: null,
-        profileLink: null
+        name: "",
+        userName: "",
+        bio: "",
+        phone: "",
+        email: "",
+        password: "",
+        profileLink: ""
     })
 
     const navigate = useNavigate();
@@ -34,7 +34,7 @@ export function LinkInsertion() {
 
     const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLink(e.target.value);
-        setUser(prevUser => ({...prevUser, urlProfileLink: e.target.value}))
+        setUser(prevUser => ({...prevUser, urlProfileLink: link}))
     }
 
     const handleErrorMessages = () => {

@@ -5,13 +5,13 @@ import {BackButton} from "../Components/BackButton.tsx";
 import {DeleteButton} from "../Components/DeleteButton.tsx";
 import {useContext, useEffect} from "react";
 import {Overlay} from "../Components/Overlay.tsx";
-import {windowContext} from "../contexts/windowContext.ts";
+import {deleteContext} from "../contexts/deleteContext.ts";
 
 export function Configuration() {
     const navigate = useNavigate();
     const {userName} = useParams();
 
-    const {opacity, setOpacity} = useContext(windowContext);
+    const {opacity, setOpacity} = useContext(deleteContext);
 
     useEffect(() => {
         console.log(opacity)
@@ -20,7 +20,7 @@ export function Configuration() {
     return (
         <>
             {opacity && <Overlay deleteWindow={opacity}/>}
-            <BackButton />
+            <BackButton onClick={() => navigate(`/${userName}/feed`)}/>
             <ConfigPageStyle top={11}>
                 <div>
                     <button onClick={() => navigate(`/${userName}/config/accountConfig`)}>

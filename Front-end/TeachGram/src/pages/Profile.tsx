@@ -14,11 +14,13 @@ import {useContext, useEffect, useState} from "react";
 import {UserStats} from "../Components/UserStats.tsx";
 import {Overlay} from "../Components/Overlay.tsx";
 import {followContext} from "../contexts/followsContext.ts";
+import {postContext} from "../contexts/postContext.ts";
 
 export function Profile() {
     const navigate = useNavigate();
     const {userName} = useParams();
     const {opacity} = useContext(followContext);
+    const {opacityPost} = useContext(postContext)
     const [user, setUser] = useState<User>();
 
     const getUser = async() => {
@@ -42,6 +44,7 @@ export function Profile() {
     return (
         <>
         {opacity && <Overlay followsWindow={opacity}/>}
+        {opacityPost && <Overlay postWindow={opacityPost}/>}
         <Body>
             <div>
                 <BackButton onClick={() => navigate("#")}/>
@@ -57,11 +60,11 @@ export function Profile() {
                 </ProfileBioImage>
                 {user !== undefined && <UserStats user={user} />}
                 <ProfilePosts>
-                    {user?.posts.map((post, index) => {
+                    {user?.posts.slice().reverse().map((post, index) => {
                         return (
                             <PostImage
                                 key={index}
-                                src={post.photoLink}
+                                src={post.photoLink!}
                                 alt={`Post ${index + 1} by ${user.name}`}
                             />
                         );

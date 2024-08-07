@@ -5,4 +5,4 @@ type Context = {
     setOpacity: Dispatch<SetStateAction<boolean>>;
 }
 
-export const windowContext = createContext<Context>({} as Context)
+export const deleteContext = createContext<Context>({} as Context)

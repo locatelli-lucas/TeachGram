@@ -10,10 +10,12 @@ import {CiSquarePlus} from "react-icons/ci";
 import {SideBarStyle} from "../styles/GeneralStyle.ts";
 import {TitleAndLogo} from "./Title.tsx";
 import {followContext} from "../contexts/followsContext.ts";
+import {postContext} from "../contexts/postContext.ts";
 
 
 export function SideBar() {
     const {setOpacity} = useContext(followContext);
+    const {setOpacityPost} = useContext(postContext)
     const navigate = useNavigate();
     const {userName} = useParams();
     const [userImg, setUserImg]= useState();
@@ -36,11 +38,11 @@ export function SideBar() {
         <>
         <SideBarStyle>
             <TitleAndLogo scale={0.6} marginTop={20}/>
-            <SideBarButton icon={GoHome} text={"Feed"}/>
+            <SideBarButton onClick={() => navigate(`/${userName}/feed`)} icon={GoHome} text={"Feed"}/>
             <SideBarButton onClick={() => setOpacity(true)} icon={MdGroup} text={"Seguidores"}/>
-            <SideBarButton src={userImg} text={"Perfil"}/>
+            <SideBarButton onClick={() => navigate(`/${userName}`)} src={userImg} text={"Perfil"}/>
             <SideBarButton onClick={() => navigate(`/${userName}/config`)} icon={GoGear} text={"Configurações"}/>
-            <SideBarButton icon={CiSquarePlus} text={"Criar"}/>
+            <SideBarButton onClick={() => setOpacityPost(true)} icon={CiSquarePlus} text={"Criar"}/>
         </SideBarStyle>
         </>
     )

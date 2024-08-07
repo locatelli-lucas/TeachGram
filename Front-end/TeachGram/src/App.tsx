@@ -9,18 +9,39 @@ import {UserProfile} from "./pages/UserProfile.tsx";
 import {Configuration} from "./pages/Configuration.tsx";
 import {AccountConfig} from "./pages/AccountConfig.tsx";
 import {ProfileConfig} from "./pages/ProfileConfig.tsx";
-import {windowContext} from "./contexts/windowContext.ts";
+import {deleteContext} from "./contexts/deleteContext.ts";
 import {useState} from "react";
 import {followContext} from "./contexts/followsContext.ts";
 import {MainPage} from "./pages/MainPage.tsx";
+import { postContext } from "./contexts/postContext.ts";
+import {PostBody} from "./services/post.service.ts";
 
 function App() {
+  const [id, setId] = useState<number | undefined>();
   const [opacity, setOpacity] = useState(false);
+  const [opacityPost, setOpacityPost] = useState(false);
   const [checkClick, setCheckClick] = useState(true)
+  const [editPost, setEditPost] = useState(false);
+  const [deletePost, setDeletePost] = useState(false);
+  const [postBody, setPostBody] = useState<PostBody>({
+    id: null,
+    description: "",
+    photoLink: "",
+    videoLink: "",
+    numLikes: null,
+    user: null,
+    postedAgo: null,
+  });
+  const [windows, setWindows] = useState({
+    firstWindow: true,
+    secondWindow: false,
+    thirdWindow: false,
+  });
 
   return (
-    <windowContext.Provider value={{opacity, setOpacity}}>
+    <deleteContext.Provider value={{opacity, setOpacity}}>
     <followContext.Provider value={{opacity, setOpacity, checkClick, setCheckClick}}>
+    <postContext.Provider value={{id, setId, opacityPost, setOpacityPost, postBody, setPostBody, windows, setWindows, editPost, setEditPost, deletePost, setDeletePost}}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element = {<Login />} />
@@ -31,11 +52,12 @@ function App() {
         <Route path="/:userName/config" element={<Configuration />}/>
         <Route path="/:userName/config/accountConfig" element={<AccountConfig />}/>
         <Route path="/:userName/config/profileConfig" element={<ProfileConfig />}/>
-        <Route path="/:userName/main" element={<MainPage />}/>
+        <Route path="/:userName/feed" element={<MainPage />}/>
       </Routes>
     </BrowserRouter>
+    </postContext.Provider>
     </followContext.Provider>
-    </windowContext.Provider>
+    </deleteContext.Provider>
   )
 }
 

@@ -1,5 +1,5 @@
 import {API} from "./api.ts";
-import {deleteAllPostByUserId, Post} from "./post.service.ts";
+import {deleteAllPostByUserId, PostBody} from "./post.service.ts";
 import {deleteAllFollowsByUserName, Follow} from "./follow.service.ts";
 
 export type User = {
@@ -11,7 +11,7 @@ export type User = {
     email: string;
     password: string;
     profileLink: string;
-    posts: Post[]
+    posts: PostBody[]
     follows: Follow[]
 };
 

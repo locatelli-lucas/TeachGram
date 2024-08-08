@@ -8,79 +8,73 @@ import {TitleAndLogo} from "../Components/Title.tsx";
 import {InputAndLabel} from "../Components/InputForm.tsx";
 import {Button, ButtonType} from "../Components/Button.tsx";
 import {FirstImage} from "../Components/FirstImage.tsx";
-import React, {useRef, useState} from "react";
-import {getUserByUserName, patchUser, UserDTO} from "../services/user.service.ts";
+import React, {useContext, useState} from "react";
+import {createUser} from "../services/user.service.ts";
 import {useNavigate, useParams} from "react-router-dom";
 import {BackButton} from "../Components/BackButton.tsx";
+import {userContext} from "../contexts/userContext.ts";
 
 export function LinkInsertion() {
-    const [isValid, setIsValid] = useState(true)
-    const linkRef = useRef<HTMLInputElement>(null);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [link, setLink] = useState("");
-    const [user, setUser] = useState<UserDTO>({
-        name: "",
-        userName: "",
-        bio: "",
-        phone: "",
-        email: "",
-        password: "",
-        profileLink: ""
-    })
-
+    const [errorMessage, setErrorMessage] = useState<string>("");
+    const {user, setUser} = useContext(userContext);
     const navigate = useNavigate();
-
     const {userName} = useParams<string>();
 
     const handleChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setLink(e.target.value);
-        setUser(prevUser => ({...prevUser, urlProfileLink: link}))
+        setUser(prevUser => ({ ...prevUser!, profileLink: e.target.value }));
     }
 
-    const handleErrorMessages = () => {
-        if (linkRef.current) {
-            if (!link) {
-                setErrorMessage("Campo vazio, digite seu link")
-                setIsValid(false);
-                return false;
-            }
+    const validateLink = (): boolean => {
+        if (!user.profileLink) {
+            setErrorMessage("Campo vazio, digite seu link");
+            return false;
         }
-        setIsValid(true);
+        setErrorMessage("");
         return true;
     }
 
     const handleLink = async (e: React.FormEvent) => {
         e.preventDefault();
-        const isValidate = handleErrorMessages();
-        console.log(isValidate);
-        console.log(user)
-        if (isValidate) {
+        if (validateLink()) {
             try {
-                await patchUser(userName!, user);
-                const user1 = await getUserByUserName(userName!)
-                console.log(user1)
+                console.log(user)
+                await createUser(user);
+                navigate(`/${userName!}`);
             } catch (error) {
                 console.error(error);
+                setErrorMessage("Erro ao criar usuário, tente novamente.");
             }
         }
     }
 
     return (
         <Body>
-            <BackButton onClick={() => navigate("/register")}/>
+            <BackButton onClick={() => navigate("/register")} />
             <TitleForm>
-                <TitleAndLogo marginTop={119}/>
+                <TitleAndLogo marginTop={119} />
                 <Form method={"post"} onSubmit={handleLink}>
                     <FormName marginBottom={7}>Insira o link da sua foto de perfil</FormName>
                     <Inputs marginLeft={1.4}>
-                        <InputAndLabel marginLeftError={1.6} inputRef={linkRef} isValid={isValid} errorMessage={errorMessage}
-                                       onChange={handleChanges} htmlFor="Link" type="text" placeholder="Insira seu link"
-                                       name="Link" required={true}/>
-                        <Button typeButton={ButtonType.Submit} text="Salvar" onClick={handleErrorMessages}/>
+                        <InputAndLabel
+                            marginLeftError={1.6}
+                            isValid={!errorMessage}
+                            errorMessage={errorMessage}
+                            onChange={handleChanges}
+                            htmlFor="Link"
+                            type="text"
+                            placeholder="Insira seu link"
+                            name="Link"
+                            required={true}
+                        />
+                        <Button
+                            typeButton={ButtonType.Submit}
+                            text="Salvar"
+                            onClick={validateLink}
+                        />
                     </Inputs>
                 </Form>
             </TitleForm>
-            <FirstImage/>
+            <FirstImage />
         </Body>
     )
 }

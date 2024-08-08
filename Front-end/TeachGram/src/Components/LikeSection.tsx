@@ -30,7 +30,7 @@ export function LikeSection({id}: Props) {
 
     const updateNumLikes = async () => {
         try {
-            if(post.numLikes) {
+            if (post.numLikes) {
                 const response = await patchPost(id, post)
                 console.log(response?.data)
             }
@@ -41,7 +41,7 @@ export function LikeSection({id}: Props) {
 
     useEffect(() => {
         getPost().then(response => {
-            if(response) {
+            if (response) {
                 setPost({...post, numLikes: response.numLikes!})
             }
         })
@@ -59,7 +59,7 @@ export function LikeSection({id}: Props) {
     return (
         <LikeIconStyle>
             <div onClick={() => setClicked(!clicked)}>
-                {clicked ? <FaHeart /> : <FaRegHeart />}
+                {clicked ? <FaHeart/> : <FaRegHeart/>}
             </div>
             <span>{post?.numLikes} curtidas</span>
         </LikeIconStyle>

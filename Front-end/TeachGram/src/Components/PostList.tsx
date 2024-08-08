@@ -18,8 +18,13 @@ export function PostList() {
 
     useEffect(() => {
         getPosts();
-        console.log(posts)
     }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+            getPosts()
+        }, 120000)
+    }, [posts]);
 
     return (
         <PostListStyle>

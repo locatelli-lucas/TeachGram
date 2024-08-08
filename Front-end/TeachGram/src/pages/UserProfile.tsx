@@ -81,7 +81,7 @@ export function UserProfile() {
             </div>
             <ProfileMain>
                 <ProfileBioImage>
-                    <ProfileImageStyle width={25} height={27} src={userVisitor?.profileLink}></ProfileImageStyle>
+                    <ProfileImageStyle width={13} height={27} src={userVisitor?.profileLink}></ProfileImageStyle>
                     <ProfileBio click={clicked}>
                         <ProfileTitle>{userVisitor?.name}</ProfileTitle>
                         <p>{userVisitor?.bio}</p>

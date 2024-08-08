@@ -12,7 +12,7 @@ export function EditPost({id}: Props) {
     const inputRef = useRef<HTMLInputElement>(null);
     const [description, setDescription] = useState("");
     const [post, setPost] = useState<PostBody>();
-    const {setEditPost} = useContext(postContext)
+    const {setEditPost, setConfigButtonClick} = useContext(postContext)
 
     const getPost = async () => {
         try {
@@ -24,13 +24,15 @@ export function EditPost({id}: Props) {
 
     const handleClose = () => {
         setEditPost(false);
+        setConfigButtonClick(false);
+
     }
 
     const handleSave = async () => {
         return await updatePost(id!, post)
-            .then(response => {
-                console.log(response)
+            .then(() => {
                 setEditPost(false)
+                setConfigButtonClick(false);
             })
     }
 

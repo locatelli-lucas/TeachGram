@@ -12,6 +12,8 @@ type Context = {
     deletePost: boolean;
     setDeletePost: Dispatch<SetStateAction<boolean>>;
     setPostBody: Dispatch<SetStateAction<PostBody>>;
+    postIdConfigButton: number | undefined;
+    setPostIdConfigButton: Dispatch<SetStateAction<number | undefined>>;
     windows: {
         firstWindow: boolean,
         secondWindow: boolean,

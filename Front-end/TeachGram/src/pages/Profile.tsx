@@ -37,8 +37,6 @@ export function Profile() {
 
     useEffect(() => {
         getUser()
-        console.log(user)
-        console.log(opacity)
     }, []);
 
     return (
@@ -52,7 +50,7 @@ export function Profile() {
             </div>
             <ProfileMain>
                 <ProfileBioImage>
-                    <ProfileImageStyle width={25} height={27} src={user?.profileLink}></ProfileImageStyle>
+                    <ProfileImageStyle width={13} height={27} src={user?.profileLink}></ProfileImageStyle>
                     <ProfileBio>
                         <ProfileTitle>{user?.name}</ProfileTitle>
                         <p>{user?.bio}</p>

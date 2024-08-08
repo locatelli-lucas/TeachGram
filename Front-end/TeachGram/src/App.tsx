@@ -15,6 +15,8 @@ import {followContext} from "./contexts/followsContext.ts";
 import {MainPage} from "./pages/MainPage.tsx";
 import { postContext } from "./contexts/postContext.ts";
 import {PostBody} from "./services/post.service.ts";
+import { userContext } from "./contexts/userContext.ts";
+import {User} from "./services/user.service.ts";
 
 function App() {
   const [id, setId] = useState<number | undefined>();
@@ -23,6 +25,7 @@ function App() {
   const [checkClick, setCheckClick] = useState(true)
   const [editPost, setEditPost] = useState(false);
   const [deletePost, setDeletePost] = useState(false);
+  const [postIdConfigButton, setPostIdConfigButton] = useState<number | undefined>(undefined);
   const [postBody, setPostBody] = useState<PostBody>({
     id: null,
     description: "",
@@ -37,11 +40,24 @@ function App() {
     secondWindow: false,
     thirdWindow: false,
   });
+  const [user, setUser] = useState<User>({
+    id: 0,
+    name: "",
+    email: "",
+    userName: "",
+    bio: "",
+    phone: "",
+    password: "",
+    profileLink: "",
+    posts: [],
+    follows: []
+  });
 
   return (
+    <userContext.Provider value={{user, setUser}}>
     <deleteContext.Provider value={{opacity, setOpacity}}>
     <followContext.Provider value={{opacity, setOpacity, checkClick, setCheckClick}}>
-    <postContext.Provider value={{id, setId, opacityPost, setOpacityPost, postBody, setPostBody, windows, setWindows, editPost, setEditPost, deletePost, setDeletePost}}>
+    <postContext.Provider value={{id, setId, opacityPost, setOpacityPost, postBody, setPostBody, windows, setWindows, editPost, setEditPost, deletePost, setDeletePost, postIdConfigButton, setPostIdConfigButton}}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element = {<Login />} />
@@ -58,6 +74,7 @@ function App() {
     </postContext.Provider>
     </followContext.Provider>
     </deleteContext.Provider>
+    </userContext.Provider>
   )
 }
 

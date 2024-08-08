@@ -9,12 +9,13 @@ interface Props {
 }
 
 export function DeletePost({id}: Props) {
-    const {setDeletePost} = useContext(postContext)
+    const {setDeletePost, setConfigButtonClick} = useContext(postContext)
 
     const deleteCurrentPost = async () => {
         return await deletePost(id!)
             .then(() => {
                 setDeletePost(false)
+                setConfigButtonClick(false)
             })
     }
 

@@ -65,9 +65,7 @@ export function FollowElement({follow, follower, check, follows, followers, onCl
 
     return (
         <FollowStyle>
-            <ProfileImageStyle src={followInUse?.profileLink} width={14} height={6.5}>
-
-            </ProfileImageStyle>
+            <ProfileImageStyle src={followInUse?.profileLink} width={4} height={6.5}></ProfileImageStyle>
             <div onClick={onClick}>
                 <h3>{followInUse?.userName}</h3>
                 <span>{followInUse?.name}</span>

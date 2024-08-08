@@ -139,7 +139,8 @@ export const Logo = styled.div`
 
 export const Draw = styled.div`
     position: relative;
-    transform: scale(2);
+    transform: scale(3);
+    color: #FFFFFF;
 `;
 
 export const Title = styled.h1`
@@ -406,19 +407,15 @@ export const SideBarButtonImg = styled.div<SideBarButtonImgProps>`
     background-size: cover;
 `;
 
-export const ProfileImageStyle = styled.div<ProfileImageStyleProps>`
+export const ProfileImageStyle = styled.img<ProfileImageStyleProps>`
     position: relative;
-    width: ${props => `${props.width}%`};
+    width: ${props => `${props.width}vw`};
     height: ${props => `${props.height}vh`};
     border-radius: 50%;
     border: #E2E2E2 solid 1px;
     top: ${props => `${props.marginTop}vh`};
     margin-right: ${props => `${props.marginRight}em`};
     left: 1em;
-    background-image: url(${props => `${props.src}`});
-    background-repeat: no-repeat;
-    background-size: cover;
-
 `;
 
 export const ProfileMain = styled.main`
@@ -435,15 +432,16 @@ export const ProfileBioImage = styled.div`
     position: relative;
     align-items: center;
     top: 3em;
+    gap: 4em;
 `
 
 export const ProfileBio = styled.div<ProfileBioProps>`
     position: relative;
-    left: 3em;
+    //left: 3em;
     display: flex;
     flex-direction: column;
     gap: 2em;
-    top: 1em;
+    //top: 1em;
     color: #303030;
     font-size: 1.3em;
     height: 25vh;
@@ -802,29 +800,18 @@ export const FollowWindowButtonsStyle = styled.button<FollowWindowButtonProps>`
 `
 
 export const PostStyle = styled.div `
-    height: 60vh;
+    //height: 65vh;
     width: 29.7vw;
     position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     padding: 0 25px;
     border: 1px solid #dcdcdc;
     border-radius: 18px;
     margin-bottom: 2em;
     color: #8E8E8E;
-    gap: 1em;
-    
-    & p {
-        bottom: 1em;
-    }
-
-    & img {
-        height: 31vh;
-        width: 26.5vw;
-        border-radius: 9px;
-        position: relative;
-    }
+    gap: 2em;
 
     & div {
         display: flex;
@@ -845,9 +832,10 @@ export const PostListStyle = styled.div`
 export const PostHeaderStyle = styled.body`
     position: relative;
     display: flex;
-    bottom: 0.5em;
     right: 1em;
     color: #8E8E8E;
+    top: 1em;
+    margin-bottom: 1em;
     
     & div {
         display: flex;
@@ -860,6 +848,12 @@ export const PostHeaderStyle = styled.body`
     & p {
         font-size: 1.5em;
         font-family: serif;
+        cursor: pointer;
+    }
+    
+    & p:hover {
+        text-decoration-line: underline;
+        
     }
     
     & span {
@@ -873,11 +867,14 @@ export const LikeIconStyle = styled.div<LikeIconProps>`
     left: 0.5em;
     display: flex;
     align-items: center;
+    bottom: 0.3em;
+    margin-bottom: 1em;
     
     & span {
        position: relative;
        left: 1em;
        bottom: 2em;
+       cursor: pointer;
     }
     
     & div {
@@ -885,6 +882,7 @@ export const LikeIconStyle = styled.div<LikeIconProps>`
         transition: 500ms;
         color: #F37671;
         top: 1.5em;
+        
     }
     
     & div:hover {
@@ -1046,8 +1044,8 @@ export const SharePostStyle = styled.body`
 
 export const DotsIcon = styled.div`
     position: absolute;
-    left: 17em;
-    top: 1em;
+    top: 2.5em;
+    right: 2em;
     height: 5vh;
     transform: scale(1.4);
     cursor: pointer;
@@ -1062,8 +1060,8 @@ export const PostConfigWindowStyle = styled.body`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    right: 2em;
-    top: 1.2em;
+    right: 3.5em;
+    top: 2em;
     transition: 300ms;
     
     & button {
@@ -1094,4 +1092,8 @@ export const PostDeleteStyle = styled.body`
         position: relative;
         margin: 0 1em
     }
+`
+
+export const PostImageStyle = styled.img`
+    border-radius: 34px;
 `

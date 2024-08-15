@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from "react";
-import {postContext} from "../contexts/postContext.ts";
+import {postContext} from "../contexts";
 import {NewPostLinkInsertion} from "./NewPostLinkInsertion.tsx";
 import {NewPostPhoto} from "./NewPostPhoto.tsx";
 import {SharePost} from "./SharePost.tsx";

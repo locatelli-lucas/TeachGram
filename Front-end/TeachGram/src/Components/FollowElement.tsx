@@ -4,7 +4,7 @@ import {ProfileConfigButton} from "./ProfileConfigButton.tsx";
 import {useParams} from "react-router-dom";
 import {Follow, followUser, unfollowUser} from "../services/follow.service.ts";
 import {useContext, useEffect, useState} from "react";
-import {followContext} from "../contexts/followsContext.ts";
+import {followContext} from "../contexts";
 
 interface Props {
     check: boolean

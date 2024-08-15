@@ -3,23 +3,19 @@ import {SideArt} from "../Components/SideArt.tsx";
 import {useNavigate, useParams} from "react-router-dom";
 import {BackButton} from "../Components/BackButton.tsx";
 import {DeleteButton} from "../Components/DeleteButton.tsx";
-import {useContext, useEffect} from "react";
+import {useContext} from "react";
 import {Overlay} from "../Components/Overlay.tsx";
-import {deleteContext} from "../contexts/deleteContext.ts";
+import {deleteContext} from "../contexts";
 
 export function Configuration() {
     const navigate = useNavigate();
     const {userName} = useParams();
 
-    const {opacity, setOpacity} = useContext(deleteContext);
-
-    useEffect(() => {
-        console.log(opacity)
-    }, [opacity]);
+    const {deleteOpacity, setDeleteOpacity} = useContext(deleteContext);
 
     return (
         <>
-            {opacity && <Overlay deleteWindow={opacity}/>}
+            {deleteOpacity && <Overlay deleteWindow={deleteOpacity}/>}
             <BackButton onClick={() => navigate(`/${userName}/feed`)}/>
             <ConfigPageStyle top={11}>
                 <div>
@@ -38,7 +34,7 @@ export function Configuration() {
                             <path d="m288-96-68-68 316-316-316-316 68-68 384 384L288-96Z"/>
                         </svg>
                     </button>
-                    <DeleteButton onClick={() => setOpacity(!opacity)}/>
+                    <DeleteButton onClick={() => setDeleteOpacity(!deleteOpacity)}/>
                 </div>
                 <div>
                     <SideArt/>

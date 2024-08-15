@@ -1,15 +1,24 @@
 import {API} from "./api.ts";
 import {User} from "./user.service.ts";
+import {UserLike} from "./userLike.service.ts";
 
 export type PostBody = {
-    id?: number | null;
+    id?: number | null | undefined;
     description?: string | undefined;
     photoLink?: string | undefined;
     videoLink?: string | null;
     numLikes?: number | null;
     user?: User | null;
-    postedAgo?: Date | null;
+    createdAt?: Date;
+    userLikes?: UserLike[] | null;
 };
+
+export type PostPatch = {
+    description?: string | null;
+    photoLink?: string | undefined;
+    numLikes?: number | null;
+    privatePost?: boolean | null
+}
 
 export function deleteAllPostByUserId(userId: number) {
     try {
@@ -27,7 +36,7 @@ export function getAllPosts() {
     }
 }
 
-export async function getPostById(id: number): Promise<PostBody> {
+export async function getPostById(id: number | null | undefined): Promise<PostBody> {
     try {
         const response = await API.get(`/posts/${id}`);
         console.log(response.data)
@@ -38,7 +47,7 @@ export async function getPostById(id: number): Promise<PostBody> {
     }
 }
 
-export async function patchPost(id: number, newData: PostBody) {
+export async function patchPost(id: number | null | undefined, newData: PostPatch) {
     try {
         return await API.patch(`/posts/${id}`, newData)
     } catch (error) {
@@ -62,9 +71,10 @@ export function createPost(post: PostBody) {
     }
 }
 
-export async function deletePost(id: number) {
+export async function deletePost(id: number | null | undefined) {
     try {
-        return await API.delete(`/posts/${id}`);
+        return await API.delete(`/post/likes/post/${id}`)
+            .then(async () => await API.delete(`/posts/${id}`))
     } catch (error) {
         console.error("Error: Couldn't find the post " + id);
     }

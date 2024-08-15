@@ -10,11 +10,13 @@ import {InputAndLabel} from "../Components/InputForm.tsx";
 import {Button, ButtonType} from "../Components/Button.tsx";
 import {FirstImage} from "../Components/FirstImage.tsx";
 import {getUserByEmail, getUsers} from "../services/user.service.ts";
-import React, {useRef, useState} from "react";
+import React, {useContext, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {userContext} from "../contexts";
 
 export function Login() {
     const navigate = useNavigate();
+    const {setIsAuthenticated} = useContext(userContext)
     const inputRefEmail = useRef<HTMLInputElement>(null);
     const inputRefPassword = useRef<HTMLInputElement>(null);
     const [form, setForm] = useState({
@@ -98,8 +100,10 @@ export function Login() {
 
         if(response) {
             const user = response.find((user: { email: string | undefined; }) => user.email === inputRefEmail.current?.value)
-            if(user.password === inputRefPassword.current?.value)
+            if(user.password === inputRefPassword.current?.value) {
+                setIsAuthenticated(true)
                 navigate(`/${user.userName}/feed`)
+            }
             else {
                 setErrorMessage(prev => ({...prev, password: "Senha incorreta"}));
                 setIsValid(prev => ({...prev, password: false}))

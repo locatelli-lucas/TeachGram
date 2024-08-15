@@ -1,5 +1,5 @@
-import {useContext, useEffect} from "react";
-import {postContext} from "../contexts/postContext.ts";
+import {useContext} from "react";
+import {postContext} from "../contexts";
 import {CloseIcon, NewPostPhotoStyle} from "../styles/GeneralStyle.ts";
 import {IoClose} from "react-icons/io5";
 
@@ -13,13 +13,8 @@ export function NewPostPhoto() {
 
     const handleClose = () => {
         setOpacityPost(false)
-        setWindows({firstWindow: false, secondWindow: false, thirdWindow: false})
+        setWindows({firstWindow: true, secondWindow: false, thirdWindow: false})
     }
-
-
-    useEffect(() => {
-        console.log(postBody);
-    }, [postBody]);
 
     return (
         <NewPostPhotoStyle>

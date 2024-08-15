@@ -1,5 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
-import {useContext, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import { getUserByUserName, User} from "../services/user.service.ts";
 import {
     Body,
@@ -13,7 +13,7 @@ import {BackButton} from "../Components/BackButton.tsx";
 import {SideBar} from "../Components/SideBar.tsx";
 import {UserStats} from "../Components/UserStats.tsx";
 import {Follow, followUser, getFollows, unfollowUser} from "../services/follow.service.ts";
-import {followContext} from "../contexts/followsContext.ts";
+import {followContext} from "../contexts";
 import {Overlay} from "../Components/Overlay.tsx";
 
 export function UserProfile() {
@@ -23,24 +23,24 @@ export function UserProfile() {
     const [userVisitor, setUserVisitor] = useState<User>();
     const [clicked, setClicked] = useState(false);
     const [, setFollows] = useState<Follow[]>([])
-    const {opacity} = useContext(followContext);
+    const {followOpacity} = useContext(followContext);
 
-    const getUser = async(username: string) => {
+    const getUser = useCallback(async(username: string) => {
         try {
             return await getUserByUserName(username!)
         } catch (error) {
             console.log("User not found")
         }
-    }
+    }, [userName])
 
-    async function handleFollows() {
+    const handleFollows = useCallback(async()  => {
         try {
             return await getFollows(userName!)
         } catch (error) {
             console.log("User not found")
             return []
         }
-    }
+    }, [userName])
 
     useEffect(() => {
         async function fetchData() {
@@ -58,7 +58,7 @@ export function UserProfile() {
             }
         }
         fetchData();
-    }, [userName, userProfile, opacity]);
+    }, [userName, userProfile, followOpacity]);
 
     const handleFollowButtonClick = async () => {
         if(!clicked) {
@@ -73,10 +73,10 @@ export function UserProfile() {
 
     return (
         <>
-        {opacity && <Overlay followsWindow={opacity}/>}
+        {followOpacity && <Overlay followsWindow={followOpacity}/>}
         <Body>
             <div>
-                <BackButton onClick={() => navigate("#")}/>
+                <BackButton onClick={() => navigate(`/${userName}/feed`)}/>
                 <SideBar/>
             </div>
             <ProfileMain>

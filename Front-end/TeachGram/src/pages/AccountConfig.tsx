@@ -2,7 +2,7 @@ import { BackButton } from "../Components/BackButton.tsx";
 import {ConfigAccountPageStyle} from "../styles/GeneralStyle.ts";
 import { SideArt } from "../Components/SideArt.tsx";
 import { ConfigInput } from "../Components/ConfigInput.tsx";
-import React, { useEffect, useRef, useState } from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {
     getUserByEmail,
     getUserByPhone,
@@ -53,13 +53,13 @@ export function AccountConfig() {
         setErrorMessage((prev) => ({ ...prev, [name]: "" }));
     };
 
-    const getUserInfos = async () => {
+    const getUserInfos = useCallback(async () => {
         try {
             return await getUserByUserName(userName!);
         } catch (error) {
             console.error("Error: User not found");
         }
-    };
+    }, [userName]);
 
     const handleInputName = () => {
         if (inputRefName.current) {

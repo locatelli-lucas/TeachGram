@@ -12,7 +12,7 @@ import React, {useContext, useState} from "react";
 import {createUser} from "../services/user.service.ts";
 import {useNavigate, useParams} from "react-router-dom";
 import {BackButton} from "../Components/BackButton.tsx";
-import {userContext} from "../contexts/userContext.ts";
+import {userContext} from "../contexts";
 
 export function LinkInsertion() {
     const [errorMessage, setErrorMessage] = useState<string>("");

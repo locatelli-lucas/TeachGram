@@ -1,12 +1,14 @@
-import {useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {getAllPosts, PostBody} from "../services/post.service.ts";
 import {Post} from "./Post.tsx";
 import {PostListStyle} from "../styles/GeneralStyle.ts";
+import {postContext} from "../contexts";
 
 export function PostList() {
     const [posts, setPosts] = useState<PostBody[]>([]);
+    const {opacityPost, editPost} = useContext(postContext)
 
-    const getPosts = async () => {
+    const getPosts = useCallback(async () => {
         try {
             const response = await getAllPosts()
             console.log(response)
@@ -14,17 +16,13 @@ export function PostList() {
         } catch (error) {
             console.log("Error fetching posts")
         }
-    }
-
-    useEffect(() => {
-        getPosts();
-    }, []);
+    }, [])
 
     useEffect(() => {
         setTimeout(() => {
             getPosts()
-        }, 120000)
-    }, [posts]);
+        }, 10000)
+    }, [opacityPost, editPost]);
 
     return (
         <PostListStyle>

@@ -95,6 +95,7 @@ export async function deleteUserByUserName(userName: string) {
         return await deleteAllFollowsByUserName(userName)
             .then(async () => await deleteAllPostByUserId(id))
             .then(async () => await API.delete(`/users/${id}`))
+            .then(async () => await API.delete(`/post/likes/user/${id}`))
             .then(response => console.log("Sucess: ", response.data))
     } catch (error) {
         console.error("Error: Couldn't find the user " + userName);

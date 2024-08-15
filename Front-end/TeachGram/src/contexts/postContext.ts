@@ -2,8 +2,8 @@ import {createContext, Dispatch, SetStateAction} from "react";
 import {PostBody} from "../services/post.service.ts";
 
 type Context = {
-    id: number | undefined;
-    setId: Dispatch<SetStateAction<number | undefined>>;
+    id: number | null | undefined;
+    setId: Dispatch<SetStateAction<number | null | undefined>>;
     opacityPost: boolean;
     setOpacityPost: Dispatch<SetStateAction<boolean>>;
     postBody: PostBody;
@@ -12,8 +12,10 @@ type Context = {
     deletePost: boolean;
     setDeletePost: Dispatch<SetStateAction<boolean>>;
     setPostBody: Dispatch<SetStateAction<PostBody>>;
-    postIdConfigButton: number | undefined;
-    setPostIdConfigButton: Dispatch<SetStateAction<number | undefined>>;
+    postIdConfigButton: number | null | undefined;
+    setPostIdConfigButton: Dispatch<SetStateAction<number | null | undefined>>;
+    viewStyle: boolean
+    setViewStyle: Dispatch<SetStateAction<boolean>>;
     windows: {
         firstWindow: boolean,
         secondWindow: boolean,

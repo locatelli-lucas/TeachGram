@@ -10,20 +10,20 @@ import {
 import {BackButton} from "../Components/BackButton.tsx";
 import {useNavigate, useParams} from "react-router-dom";
 import {getUserByUserName, User} from "../services/user.service.ts";
-import {useContext, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {UserStats} from "../Components/UserStats.tsx";
 import {Overlay} from "../Components/Overlay.tsx";
-import {followContext} from "../contexts/followsContext.ts";
-import {postContext} from "../contexts/postContext.ts";
+import {followContext, postContext} from "../contexts";
 
 export function Profile() {
     const navigate = useNavigate();
     const {userName} = useParams();
-    const {opacity} = useContext(followContext);
-    const {opacityPost} = useContext(postContext)
+    const {followOpacity} = useContext(followContext);
+    const {opacityPost, viewStyle, setViewStyle, editPost, deletePost} = useContext(postContext)
     const [user, setUser] = useState<User>();
+    const [postId, setPostId] = useState<number>();
 
-    const getUser = async() => {
+    const getUser = useCallback(async() => {
         try {
             return await getUserByUserName(userName!)
                 .then((response) => {
@@ -33,19 +33,27 @@ export function Profile() {
         } catch (error) {
             console.log("User not found")
         }
+    }, [userName])
+
+    const handleClick = (index: number) => {
+        setViewStyle(true)
+        setPostId(index)
     }
 
     useEffect(() => {
         getUser()
-    }, []);
+    }, [opacityPost, viewStyle, editPost, deletePost]);
 
     return (
         <>
-        {opacity && <Overlay followsWindow={opacity}/>}
+        {followOpacity && <Overlay followsWindow={followOpacity}/>}
         {opacityPost && <Overlay postWindow={opacityPost}/>}
+        {viewStyle && <Overlay postId={postId} postView={viewStyle}/>}
+        {editPost && <Overlay editPost={editPost}/>}
+        {deletePost && <Overlay postDelete={deletePost}/>}
         <Body>
             <div>
-                <BackButton onClick={() => navigate("#")}/>
+                <BackButton onClick={() => navigate(`/${userName}/feed`)}/>
                 <SideBar/>
             </div>
             <ProfileMain>
@@ -58,12 +66,13 @@ export function Profile() {
                 </ProfileBioImage>
                 {user !== undefined && <UserStats user={user} />}
                 <ProfilePosts>
-                    {user?.posts.slice().reverse().map((post, index) => {
+                    {user?.posts.slice().reverse().map((post) => {
                         return (
                             <PostImage
-                                key={index}
+                                key={post.id}
+                                onClick={() => handleClick(post.id!)}
                                 src={post.photoLink!}
-                                alt={`Post ${index + 1} by ${user.name}`}
+                                alt={`Post ${post.id! + 1} by ${user.name}`}
                             />
                         );
                     })}

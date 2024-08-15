@@ -1,6 +1,6 @@
 import {ProfilePostsFriends} from "../styles/GeneralStyle.ts";
 import {User} from "../services/user.service.ts";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {FollowerDTO, getAllUserFollowers, getAllUserFollows} from "../services/follow.service.ts";
 
 interface Props {
@@ -12,7 +12,7 @@ export function UserStats({user, click}: Props) {
     const [followers, setFollowers] = useState<FollowerDTO[]>([])
     const [follows, setFollows] = useState<FollowerDTO[]>([])
 
-    async function handleFollowers() {
+    const handleFollowers = useCallback(async () => {
         try {
             return await getAllUserFollowers(user.userName)
                 .then((response) => {
@@ -21,9 +21,9 @@ export function UserStats({user, click}: Props) {
         } catch (error) {
             console.log("User not found")
         }
-    }
+    }, [click])
 
-    async function handleFollows() {
+    const handleFollows = useCallback(async () => {
         try {
             return await getAllUserFollows(user.userName)
                 .then((response) => {
@@ -33,7 +33,7 @@ export function UserStats({user, click}: Props) {
             console.log("User not found")
             return []
         }
-    }
+    }, [click])
 
     useEffect(() => {
         handleFollowers()

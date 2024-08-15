@@ -1,5 +1,5 @@
 import {FollowsWindowStyle, FollowWindowButtonsStyle} from "../styles/GeneralStyle.ts";
-import {useContext, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {
     Follow,
@@ -7,7 +7,7 @@ import {
     getAllUserFollows,
 } from "../services/follow.service.ts";
 import {FollowElement} from "./FollowElement.tsx";
-import {followContext} from "../contexts/followsContext.ts";
+import {followContext} from "../contexts";
 
 export function FollowsWindow() {
     const {userName} = useParams();
@@ -16,10 +16,10 @@ export function FollowsWindow() {
     const [check, setCheck] = useState(true)
     const [clickedFollowers, setClickedFollowers] = useState(false);
     const [clickedFollows, setClickedFollows] = useState(false);
-    const {setOpacity, checkClick, setCheckClick} = useContext(followContext)
+    const {setFollowOpacity, checkClick, setCheckClick} = useContext(followContext)
     const navigate = useNavigate();
 
-    async function handleFollowers() {
+    const handleFollowers = useCallback(async () => {
         try {
             return await getAllUserFollowers(userName!)
                 .then((response) => {
@@ -28,9 +28,9 @@ export function FollowsWindow() {
         } catch (error) {
             console.log("User not found")
         }
-    }
+    }, [userName, check])
 
-    async function handleFollows() {
+    const handleFollows = useCallback(async () => {
         try {
             return await getAllUserFollows(userName!)
                 .then((response) => {
@@ -40,7 +40,7 @@ export function FollowsWindow() {
             console.log("User not found")
             return []
         }
-    }
+    }, [userName, check])
 
     const handleClickedFollowers = () => {
         setClickedFollowers(!clickedFollowers);
@@ -55,7 +55,7 @@ export function FollowsWindow() {
     };
 
     const handleClick = (path: string) => {
-        setOpacity(false)
+        setFollowOpacity(false)
 
         if(checkClick) navigate(`/${userName}/in/${path}`)
         setCheckClick(true)
@@ -68,7 +68,7 @@ export function FollowsWindow() {
 
     return (
         <FollowsWindowStyle>
-            <svg onClick={() => setOpacity(false)} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F37671">
+            <svg onClick={() => setFollowOpacity(false)} xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#F37671">
                 <path
                     d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
             </svg>

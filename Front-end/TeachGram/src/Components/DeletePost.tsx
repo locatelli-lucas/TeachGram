@@ -1,21 +1,21 @@
 import {ProfileConfigButton} from "./ProfileConfigButton.tsx";
 import {useContext} from "react";
-import {postContext} from "../contexts/postContext.ts";
+import {postContext} from "../contexts";
 import {deletePost} from "../services/post.service.ts";
 import {PostDeleteStyle} from "../styles/GeneralStyle.ts";
 
 interface Props {
-    id: number | undefined
+    id: number | null | undefined
 }
 
 export function DeletePost({id}: Props) {
-    const {setDeletePost, setConfigButtonClick} = useContext(postContext)
+    const {setDeletePost, setPostIdConfigButton} = useContext(postContext)
 
     const deleteCurrentPost = async () => {
-        return await deletePost(id!)
+        return await deletePost(id)
             .then(() => {
                 setDeletePost(false)
-                setConfigButtonClick(false)
+                setPostIdConfigButton(undefined)
             })
     }
 

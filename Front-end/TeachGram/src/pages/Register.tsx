@@ -15,11 +15,11 @@ import {
     getUserByUserName,
 } from "../services/user.service.ts";
 import { useNavigate } from "react-router-dom";
-import {userContext} from "../contexts/userContext.ts";
+import {userContext} from "../contexts";
 
 export function Register() {
     const marginBottom = -0.3;
-    const {user, setUser} = useContext(userContext)
+    const {user, setUser, setIsAuthenticated} = useContext(userContext)
     const navigate = useNavigate();
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
@@ -175,7 +175,10 @@ export function Register() {
         const isValidForm = await handleErrorMessages();
         try {
             console.log(user)
-            isValidForm ? navigate(`/register/${user?.userName}/link`) : null
+            if(isValidForm) {
+                setIsAuthenticated(true)
+                navigate(`/register/${user?.userName}/link`)
+            }
         } catch (error) {
             console.error(error);
         }

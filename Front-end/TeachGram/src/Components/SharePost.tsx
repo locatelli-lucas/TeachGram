@@ -1,5 +1,5 @@
 import {useContext, useEffect, useRef, useState} from "react";
-import {postContext} from "../contexts/postContext.ts";
+import {postContext} from "../contexts";
 import {CloseIcon, SharePostStyle} from "../styles/GeneralStyle.ts";
 import {createPost, PostBody} from "../services/post.service.ts";
 import {FaArrowLeft} from "react-icons/fa";
@@ -18,15 +18,9 @@ export function SharePost() {
     }
 
     const handleClick = async () => {
-        // Log antes de criar o post
-        console.log("Antes de criar o post:", postBody);
-
         await createNewPost(postBody).then(response => console.log(response?.data))
 
-        // Log depois de criar o post
-        console.log("Depois de criar o post:", postBody);
-
-        setWindows({firstWindow: false, secondWindow: false, thirdWindow: false})
+        setWindows({firstWindow: true, secondWindow: false, thirdWindow: false})
         setPostBody(prev => ({...prev, description: "", user: null, photoLink: ""}));
         setOpacityPost(false)
     }
@@ -37,7 +31,6 @@ export function SharePost() {
 
     useEffect(() => {
         setPostBody(prev => ({...prev, description: description}));
-        console.log(postBody);
     }, [description]);
 
     return (

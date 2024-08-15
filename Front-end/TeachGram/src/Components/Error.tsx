@@ -10,8 +10,13 @@ interface ErrorProps {
 export function Error({message, marginLeft, marginTop}: ErrorProps) {
     return (
         <ErrorStyle marginLeft={marginLeft} marginTop={marginTop} >
-            <LittleCircle></LittleCircle>
-            <span>{message}</span>
+            {message !== "" ?
+                <>
+                    <LittleCircle></LittleCircle>
+                    <span>{message}</span>
+                </>
+                :
+                    null}
         </ErrorStyle>
     )
 }

@@ -527,6 +527,7 @@ export const PostImage = styled.img`
     height: 19.4em;
     width: 19.4em;
     border: #FFFFFF solid 1px;
+    cursor: pointer;
 `
 
 export const ConfigPageStyle = styled.body<ConfigPageStyleProps>`
@@ -800,7 +801,6 @@ export const FollowWindowButtonsStyle = styled.button<FollowWindowButtonProps>`
 `
 
 export const PostStyle = styled.div `
-    //height: 65vh;
     width: 29.7vw;
     position: relative;
     display: flex;
@@ -812,6 +812,8 @@ export const PostStyle = styled.div `
     margin-bottom: 2em;
     color: #8E8E8E;
     gap: 2em;
+    background: #FFFFFF;
+    font-family: sans-serif;
 
     & div {
         display: flex;
@@ -1096,4 +1098,5 @@ export const PostDeleteStyle = styled.body`
 
 export const PostImageStyle = styled.img`
     border-radius: 34px;
+
 `

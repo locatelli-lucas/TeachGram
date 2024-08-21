@@ -41,6 +41,7 @@ export function UserStats({user, click}: Props) {
     }, [click]);
 
     return (
+
         <ProfilePostsFriends>
             <div>
                 <b>{user?.posts.length}</b>

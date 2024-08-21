@@ -133,7 +133,7 @@ export function ProfileConfig() {
         getUserInfos().then((response) => {
             setUser(response);
         });
-    }, []);
+    }, [handleSubmit]);
 
     return (
         <>
@@ -141,7 +141,7 @@ export function ProfileConfig() {
             <ConfigAccountPageStyle width={17} top={7} >
                 <div>
                     <h2>Editar perfil</h2>
-                    <ProfileImageStyle src={user?.profileLink} width={10} height={15} marginTop={15}></ProfileImageStyle>
+                    <ProfileImageStyle src={user?.profileLink} width={9} height={15} marginTop={15}></ProfileImageStyle>
                     <form method={"post"} onSubmit={handleSubmit} noValidate>
                         <ConfigInput
                             name={"profileLink"}

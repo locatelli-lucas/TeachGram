@@ -19,10 +19,12 @@ export function PostList() {
     }, [])
 
     useEffect(() => {
+        getPosts()
         setTimeout(() => {
             getPosts()
-        }, 10000)
+        }, 5000)
     }, [opacityPost, editPost]);
+
 
     return (
         <PostListStyle>

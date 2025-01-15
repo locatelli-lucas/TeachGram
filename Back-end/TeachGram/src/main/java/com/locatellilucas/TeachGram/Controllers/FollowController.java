@@ -1,6 +1,6 @@
 package com.locatellilucas.teachgram.controllers;
 
-import com.locatellilucas.teachgram.dto.req.FollowDTOReq;
+import com.locatellilucas.teachgram.dto.req.follow.FollowDTOReq;
 import com.locatellilucas.teachgram.dto.res.follow.FollowDTORes;
 import com.locatellilucas.teachgram.services.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;

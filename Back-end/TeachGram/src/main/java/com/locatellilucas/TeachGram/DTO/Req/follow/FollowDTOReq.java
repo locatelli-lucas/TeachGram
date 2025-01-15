@@ -1,4 +1,4 @@
-package com.locatellilucas.teachgram.dto.req;
+package com.locatellilucas.teachgram.dto.req.follow;
 
 import com.locatellilucas.teachgram.entities.Follow;
 import com.locatellilucas.teachgram.entities.User;

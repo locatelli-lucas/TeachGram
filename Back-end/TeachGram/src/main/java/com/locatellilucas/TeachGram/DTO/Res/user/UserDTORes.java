@@ -1,6 +1,6 @@
-package com.locatellilucas.TeachGram.DTO.Res.user;
+package com.locatellilucas.teachgram.dto.res.user;
 
-import com.locatellilucas.TeachGram.Entities.*;
+import com.locatellilucas.teachgram.entities.*;
 
 import java.util.List;
 

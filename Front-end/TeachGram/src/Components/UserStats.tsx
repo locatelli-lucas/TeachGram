@@ -1,7 +1,7 @@
 import {ProfilePostsFriends} from "../styles/GeneralStyle.ts";
 import {User} from "../services/user.service.ts";
 import {useCallback, useEffect, useState} from "react";
-import {FollowerDTO, getAllUserFollowers, getAllUserFollows} from "../services/follow.service.ts";
+import {FollowDTO, getAllUserFollowers, getAllUserFollows} from "../services/follow.service.ts";
 
 interface Props {
     user: User
@@ -9,8 +9,8 @@ interface Props {
 }
 
 export function UserStats({user, click}: Props) {
-    const [followers, setFollowers] = useState<FollowerDTO[]>([])
-    const [follows, setFollows] = useState<FollowerDTO[]>([])
+    const [followers, setFollowers] = useState<FollowDTO[]>([])
+    const [follows, setFollows] = useState<FollowDTO[]>([])
 
     const handleFollowers = useCallback(async () => {
         try {

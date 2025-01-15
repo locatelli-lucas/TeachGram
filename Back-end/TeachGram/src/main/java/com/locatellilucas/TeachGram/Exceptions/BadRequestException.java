@@ -1,6 +1,4 @@
-package com.locatellilucas.TeachGram.Exceptions;
-
-import org.springframework.http.HttpStatus;
+package com.locatellilucas.teachgram.exceptions;
 
 public class BadRequestException extends RuntimeException{
     public BadRequestException(String message) {

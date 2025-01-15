@@ -1,15 +1,11 @@
-package com.locatellilucas.TeachGram.DTO.Res.follow;
+package com.locatellilucas.teachgram.dto.res.follow;
 
-import com.locatellilucas.TeachGram.Entities.Follow;
-import com.locatellilucas.TeachGram.Entities.User;
+import com.locatellilucas.teachgram.entities.Follow;
+import com.locatellilucas.teachgram.entities.User;
 
-public record FollowDTORes(Long id, User follower) {
+public record FollowDTORes(Long id, Long followerId, Long followedId) {
 
-    public static FollowDTORes followToDTOFollower(Follow follow) {
-        return new FollowDTORes(follow.getId(), follow.getFollower());
-    }
+    public static FollowDTORes followToDTO(Follow follow) { return new FollowDTORes(follow.getId(), follow.getFollower().getId(), follow.getFollowed().getId()); }
 
-    public static FollowDTORes followToDTOFollowing(Follow follow) {
-        return new FollowDTORes(follow.getId(), follow.getFollowed());
-    }
 }
+

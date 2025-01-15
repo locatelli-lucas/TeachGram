@@ -1,16 +1,18 @@
-package com.locatellilucas.TeachGram.Services;
+package com.locatellilucas.teachgram.services;
 
-import com.locatellilucas.TeachGram.DTO.Req.user.UserDTOReq;
-import com.locatellilucas.TeachGram.DTO.Req.user.UserPatchDTOReq;
-import com.locatellilucas.TeachGram.DTO.Res.user.UserDTORes;
-import com.locatellilucas.TeachGram.Entities.User;
-import com.locatellilucas.TeachGram.Exceptions.BadRequestException;
-import com.locatellilucas.TeachGram.Exceptions.EntityNotFoundException;
-import com.locatellilucas.TeachGram.Repositories.UserRepository;
+import com.locatellilucas.teachgram.dto.req.user.UserDTOReq;
+import com.locatellilucas.teachgram.dto.req.user.UserPatchDTOReq;
+import com.locatellilucas.teachgram.dto.res.user.UserDTORes;
+import com.locatellilucas.teachgram.entities.User;
+import com.locatellilucas.teachgram.exceptions.BadRequestException;
+import com.locatellilucas.teachgram.exceptions.EntityNotFoundException;
+import com.locatellilucas.teachgram.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -24,19 +26,17 @@ public class UserService {
                 !UserDTOReq.isValid(userDTOReq)) throw new BadRequestException("Invalid user data provided");
 
         User user = this.userRepository.save(userDTOReq.dtoToUser());
-        System.out.println(user);
         return UserDTORes.userToDto(user);
     }
 
-    public List<UserDTORes> findAll() {
-        List<User> list = this.userRepository.findAll();
-        list.forEach(System.out::println);
-        return list.stream().map(UserDTORes::userToDto).toList();
+    public Page<UserDTORes> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<User> list = this.userRepository.findAll(pageable);
+        return list.map(UserDTORes::userToDto);
     }
 
     public UserDTORes findById(Long id) {
         User user = this.findByIdEntity(id);
-        System.out.println(user);
         return UserDTORes.userToDto(user);
     }
 
@@ -44,7 +44,6 @@ public class UserService {
         if(userDTOReq == null || !UserDTOReq.isValid(userDTOReq)) throw new BadRequestException("Invalid user data provided");
 
         User user = this.userRepository.save(userDTOReq.dtoToUser(id));
-        System.out.println(user);
         return UserDTORes.userToDto(user);
     }
 
@@ -62,7 +61,6 @@ public class UserService {
         if (!Objects.equals(updates.profileLink(), "")) user.setProfileLink(updates.profileLink());
 
         this.userRepository.save(user);
-        System.out.println(user);
         return UserDTORes.userToDto(user);
     }
 

@@ -7,17 +7,18 @@ export type Follow = {
     user: User
 };
 
-export type FollowerDTO = {
+export type FollowDTO = {
     id: number,
-    follower: User
+    followerId: number,
+    followedId: number
 }
 
-export async function followUser(userName: string , userToFollow: string ) {
+export async function followUser(userName: string , userToFollow: string) {
     try {
         const userNameId = await getUserId(userName);
         const userToFollowId = await getUserId(userToFollow);
         console.log(userNameId, userToFollowId)
-        return await API.post(`/users/${userNameId}/follow/${userToFollowId}`)
+        return await API.post(`/follow`)
     }catch (error) {
         console.error("Error: Could not follow");
     }
@@ -34,7 +35,7 @@ export async function unfollowUser(userName: string , userToUnfollow: string ) {
     }
 }
 
-export async function getAllUserFollowers(userName: string): Promise<Follow[]> {
+export async function getAllUserFollowers(userName: string): Promise<FollowDTO[]> {
     try {
         const userId = await getUserId(userName);
         return await API.get(`/users/${userId}/followers`)
@@ -60,7 +61,7 @@ export async function getFollows(userName: string): Promise<Follow[]> {
     }
 }
 
-export async function getAllUserFollows(userName: string): Promise<Follow[]> {
+export async function getAllUserFollows(userName: string): Promise<FollowDTO[]> {
     try {
         const userId = await getUserId(userName);
         return await API.get(`/users/${userId}/following`)

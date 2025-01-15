@@ -1,7 +1,7 @@
-package com.locatellilucas.TeachGram.DTO.Req.post;
+package com.locatellilucas.teachgram.dto.req.post;
 
-import com.locatellilucas.TeachGram.Entities.Post;
-import com.locatellilucas.TeachGram.Entities.User;
+import com.locatellilucas.teachgram.entities.Post;
+import com.locatellilucas.teachgram.entities.User;
 
 public record PostDTOReq(String description, User user, String photoLink) {
     public Post dtoToPost() {

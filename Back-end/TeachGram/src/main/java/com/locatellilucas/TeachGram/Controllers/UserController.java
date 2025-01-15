@@ -1,16 +1,16 @@
-package com.locatellilucas.TeachGram.Controllers;
+package com.locatellilucas.teachgram.controllers;
 
-import com.locatellilucas.TeachGram.DTO.Req.user.UserDTOReq;
-import com.locatellilucas.TeachGram.DTO.Req.user.UserPatchDTOReq;
-import com.locatellilucas.TeachGram.DTO.Res.user.UserDTORes;
-import com.locatellilucas.TeachGram.Services.UserService;
+import com.locatellilucas.teachgram.dto.req.user.UserDTOReq;
+import com.locatellilucas.teachgram.dto.req.user.UserPatchDTOReq;
+import com.locatellilucas.teachgram.dto.res.user.UserDTORes;
+import com.locatellilucas.teachgram.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -25,9 +25,9 @@ public class UserController {
         return ResponseEntity.created(uri).body(user);
     }
 
-    @GetMapping
-    public ResponseEntity<List<UserDTORes>> findAll() {
-        List<UserDTORes> users = this.userService.findAll();
+    @GetMapping()
+    public ResponseEntity<Page<UserDTORes>> findAll(@RequestParam int page, @RequestParam int size) {
+        Page<UserDTORes> users = this.userService.findAll(page, size);
         return ResponseEntity.ok(users);
     }
 

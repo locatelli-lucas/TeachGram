@@ -1,4 +1,4 @@
-package com.locatellilucas.TeachGram.Exceptions;
+package com.locatellilucas.teachgram.exceptions;
 
 import org.springframework.http.HttpStatus;
 

@@ -1,8 +1,8 @@
-package com.locatellilucas.TeachGram.DTO.Res.post;
+package com.locatellilucas.teachgram.dto.res.post;
 
-import com.locatellilucas.TeachGram.Entities.Post;
-import com.locatellilucas.TeachGram.Entities.User;
-import com.locatellilucas.TeachGram.Entities.UserLike;
+import com.locatellilucas.teachgram.entities.Post;
+import com.locatellilucas.teachgram.entities.User;
+import com.locatellilucas.teachgram.entities.UserLike;
 
 import java.time.Instant;
 import java.util.List;

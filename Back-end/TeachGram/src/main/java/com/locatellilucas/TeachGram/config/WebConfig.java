@@ -1,4 +1,4 @@
-package com.locatellilucas.TeachGram.config;
+package com.locatellilucas.teachgram.config;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;

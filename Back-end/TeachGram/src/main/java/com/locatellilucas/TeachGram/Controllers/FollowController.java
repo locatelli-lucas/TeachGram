@@ -1,10 +1,8 @@
-package com.locatellilucas.TeachGram.Controllers;
+package com.locatellilucas.teachgram.controllers;
 
-import com.locatellilucas.TeachGram.DTO.Res.follow.FollowDTORes;
-import com.locatellilucas.TeachGram.Entities.Follow;
-import com.locatellilucas.TeachGram.Entities.User;
-import com.locatellilucas.TeachGram.Services.FollowService;
-import com.locatellilucas.TeachGram.Services.UserService;
+import com.locatellilucas.teachgram.dto.req.FollowDTOReq;
+import com.locatellilucas.teachgram.dto.res.follow.FollowDTORes;
+import com.locatellilucas.teachgram.services.FollowService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,40 +14,35 @@ import java.util.List;
 public class FollowController {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private FollowService followService;
 
-    @PostMapping("/{followerId}/follow/{followedId}")
-    public ResponseEntity<Follow> createFollow(@PathVariable Long followerId, @PathVariable Long followedId) {
-        User follower = userService.findByIdEntity(followerId);
-        User followed = userService.findByIdEntity(followedId);
-        Follow responseFollow = this.followService.createFollow(follower, followed);
-        return ResponseEntity.ok(responseFollow);
+    @PostMapping("/follow")
+    public ResponseEntity<FollowDTORes> createFollow(@RequestBody FollowDTOReq followDTOReq) {
+        FollowDTORes response = this.followService.createFollow(followDTOReq);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}/following")
-    public ResponseEntity<List<FollowDTORes>> getFollowsByUserId(@PathVariable Long id) {
-        List<FollowDTORes> list = this.followService.getFollowsByUserId(id);
+    public ResponseEntity<List<FollowDTORes>> getFollowsByUserId(@PathVariable Long id, @RequestParam int page, @RequestParam int size) {
+        List<FollowDTORes> list = this.followService.getFollowsByUserId(id, page, size);
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/{id}/followers")
-    public ResponseEntity<List<Follow>> getFollowersByUserId(@PathVariable Long id) {
-        List<Follow> follows = this.followService.getFollowersByUserId(id);
+    public ResponseEntity<List<FollowDTORes>> getFollowersByUserId(@PathVariable Long id, @RequestParam int page, @RequestParam int size) {
+        List<FollowDTORes> follows = this.followService.getFollowersByUserId(id, page, size);
         return ResponseEntity.ok(follows);
     }
 
     @GetMapping("/{id}/follows")
-    public ResponseEntity<List<Follow>> getAllUserFollows(@PathVariable Long id) {
-        List<Follow> follows = this.followService.getAllUserFollows(id);
+    public ResponseEntity<List<FollowDTORes>> getAllUserFollows(@PathVariable Long id, @RequestParam int page, @RequestParam int size) {
+        List<FollowDTORes> follows = this.followService.getAllUserFollows(id, page, size);
         return ResponseEntity.ok(follows);
     }
 
     @DeleteMapping("/{followerId}/unfollow/{followedId}")
-    public ResponseEntity<Void> deleteFollower(@PathVariable Long followerId, @PathVariable Long followedId) {
-        this.followService.deleteFollow(followerId, followedId);
+    public ResponseEntity<Void> deleteFollower(@PathVariable Long followerId, @PathVariable Long followedId, @RequestParam int page, @RequestParam int size) {
+        this.followService.deleteFollow(followerId, followedId, page, size);
         return ResponseEntity.noContent().build();
     }
 

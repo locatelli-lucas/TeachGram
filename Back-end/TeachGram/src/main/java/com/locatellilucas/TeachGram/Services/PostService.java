@@ -1,15 +1,18 @@
-package com.locatellilucas.TeachGram.Services;
+package com.locatellilucas.teachgram.services;
 
-import com.locatellilucas.TeachGram.DTO.Req.post.PostDTOReq;
-import com.locatellilucas.TeachGram.DTO.Req.post.PostPatchDTOReq;
-import com.locatellilucas.TeachGram.DTO.Res.post.PostDTORes;
-import com.locatellilucas.TeachGram.Entities.Post;
-import com.locatellilucas.TeachGram.Entities.User;
-import com.locatellilucas.TeachGram.Exceptions.BadRequestException;
-import com.locatellilucas.TeachGram.Exceptions.EntityNotFoundException;
-import com.locatellilucas.TeachGram.Repositories.PostRepository;
-import com.locatellilucas.TeachGram.Repositories.UserRepository;
+import com.locatellilucas.teachgram.dto.req.post.PostDTOReq;
+import com.locatellilucas.teachgram.dto.req.post.PostPatchDTOReq;
+import com.locatellilucas.teachgram.dto.res.post.PostDTORes;
+import com.locatellilucas.teachgram.entities.Post;
+import com.locatellilucas.teachgram.entities.User;
+import com.locatellilucas.teachgram.exceptions.BadRequestException;
+import com.locatellilucas.teachgram.exceptions.EntityNotFoundException;
+import com.locatellilucas.teachgram.repositories.PostRepository;
+import com.locatellilucas.teachgram.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,10 +35,10 @@ public class PostService {
         return PostDTORes.postToDto(post);
     }
 
-    public List<PostDTORes> findAll() {
-        List<Post> list = this.postRepository.findAll();
-        list.forEach(System.out::println);
-        return list.stream().map(PostDTORes::postToDto).toList();
+    public Page<PostDTORes> findAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Post> list = postRepository.findAll(pageable);
+        return list.map(PostDTORes::postToDto);
     }
 
     public PostDTORes findById(Long id) {

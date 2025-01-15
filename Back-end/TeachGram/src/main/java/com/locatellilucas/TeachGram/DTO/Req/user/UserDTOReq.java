@@ -1,6 +1,6 @@
-package com.locatellilucas.TeachGram.DTO.Req.user;
+package com.locatellilucas.teachgram.dto.req.user;
 
-import com.locatellilucas.TeachGram.Entities.User;
+import com.locatellilucas.teachgram.entities.User;
 
 public record UserDTOReq(String name, String userName, String bio, String phone, String email, String password, String profileLink) {
 

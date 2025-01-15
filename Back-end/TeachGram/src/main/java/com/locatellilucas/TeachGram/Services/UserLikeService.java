@@ -1,13 +1,16 @@
-package com.locatellilucas.TeachGram.Services;
+package com.locatellilucas.teachgram.services;
 
-import com.locatellilucas.TeachGram.Entities.Post;
-import com.locatellilucas.TeachGram.Entities.User;
-import com.locatellilucas.TeachGram.Entities.UserLike;
-import com.locatellilucas.TeachGram.Exceptions.EntityNotFoundException;
-import com.locatellilucas.TeachGram.Repositories.PostRepository;
-import com.locatellilucas.TeachGram.Repositories.UserLikeRepository;
-import com.locatellilucas.TeachGram.Repositories.UserRepository;
+import com.locatellilucas.teachgram.entities.Post;
+import com.locatellilucas.teachgram.entities.User;
+import com.locatellilucas.teachgram.entities.UserLike;
+import com.locatellilucas.teachgram.exceptions.EntityNotFoundException;
+import com.locatellilucas.teachgram.repositories.PostRepository;
+import com.locatellilucas.teachgram.repositories.UserLikeRepository;
+import com.locatellilucas.teachgram.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,17 +33,18 @@ public class UserLikeService {
         return this.userLikeRepository.save(new UserLike(user, post));
     }
 
-    public List<UserLike> getAllUserLikes() {
-        return this.userLikeRepository.findAll();
+    public Page<UserLike> getAllUserLikes(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return this.userLikeRepository.findAll(pageable);
     }
 
-    public void deleteAllByPostId(Long postId) {
-        List<UserLike> list = getAllUserLikes().stream().filter(element -> element.getPost().getId().equals(postId)).toList();
+    public void deleteAllByPostId(Long postId, int page, int size) {
+        Page<UserLike> list = (Page<UserLike>) getAllUserLikes(page, size).filter(element -> element.getPost().getId().equals(postId));
         this.userLikeRepository.deleteAll(list);
     }
 
-    public void deleteAllByUserId(Long userId) {
-        List<UserLike> list = getAllUserLikes().stream().filter(element -> element.getUser().getId().equals(userId)).toList();
+    public void deleteAllByUserId(Long userId, int page, int size) {
+        Page<UserLike> list = (Page<UserLike>) getAllUserLikes(page, size).filter(element -> element.getUser().getId().equals(userId));
         this.userLikeRepository.deleteAll(list);
     }
 

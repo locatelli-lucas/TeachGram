@@ -1,4 +1,4 @@
-package com.locatellilucas.TeachGram.DTO.Req.post;
+package com.locatellilucas.teachgram.dto.req.post;
 
 public record PostPatchDTOReq(String description, String photoLink, int numLikes, boolean privatePost) {
 }

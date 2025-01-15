@@ -1,4 +1,4 @@
-package com.locatellilucas.TeachGram.Exceptions;
+package com.locatellilucas.teachgram.exceptions;
 
 public class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException(String message) {

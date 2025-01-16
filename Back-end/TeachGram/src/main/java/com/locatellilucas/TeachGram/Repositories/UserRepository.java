@@ -8,9 +8,13 @@ import org.springframework.stereotype.Repository;
 
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     @NotNull
     Page<User> findAll(@NotNull Pageable pageable);
+
+    Optional<User> findByUserName(String userName);
 }

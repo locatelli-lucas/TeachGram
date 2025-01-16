@@ -1,7 +1,9 @@
 package com.locatellilucas.teachgram.services;
 
+import com.locatellilucas.teachgram.dto.req.login.LoginDTOReq;
 import com.locatellilucas.teachgram.dto.req.user.UserDTOReq;
 import com.locatellilucas.teachgram.dto.req.user.UserPatchDTOReq;
+import com.locatellilucas.teachgram.dto.res.login.LoginDTORes;
 import com.locatellilucas.teachgram.dto.res.user.UserDTORes;
 import com.locatellilucas.teachgram.entities.User;
 import com.locatellilucas.teachgram.exceptions.BadRequestException;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -73,5 +76,22 @@ public class UserService {
         return this.userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
     }
 
+    public LoginDTORes login(LoginDTOReq loginDTOReq) {
+        if(loginDTOReq.userName() == null) throw new RuntimeException("Username is required");
+        if(loginDTOReq.password() == null) throw new RuntimeException("Password is required");
+        if(loginDTOReq.userName().isEmpty()) throw new RuntimeException("Username is required");
+        if(loginDTOReq.password().isEmpty()) throw new RuntimeException("Password is required");
+
+        Optional<User> user = this.userRepository.findByUserName(loginDTOReq.userName());
+
+        if(user.isEmpty()) throw new EntityNotFoundException("User with name " + loginDTOReq.userName() + " not found");
+
+        User newUser = user.get();
+
+        if(!newUser.getPassword().equals(loginDTOReq.password())) throw new BadRequestException("Password does not match");
+
+        return new LoginDTORes("Login successful");
+
+    }
 
 }

@@ -1,7 +1,9 @@
 package com.locatellilucas.teachgram.controllers;
 
+import com.locatellilucas.teachgram.dto.req.login.LoginDTOReq;
 import com.locatellilucas.teachgram.dto.req.user.UserDTOReq;
 import com.locatellilucas.teachgram.dto.req.user.UserPatchDTOReq;
+import com.locatellilucas.teachgram.dto.res.login.LoginDTORes;
 import com.locatellilucas.teachgram.dto.res.user.UserDTORes;
 import com.locatellilucas.teachgram.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,12 @@ public class UserController {
     public ResponseEntity<UserDTOReq> delete(@PathVariable Long id) {
         this.userService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginDTORes> login(@RequestBody LoginDTOReq loginDTOReq) {
+        LoginDTORes response = this.userService.login(loginDTOReq);
+        return ResponseEntity.ok(response);
     }
 
 }

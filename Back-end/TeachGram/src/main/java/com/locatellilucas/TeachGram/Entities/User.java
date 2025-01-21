@@ -1,14 +1,19 @@
 package com.locatellilucas.teachgram.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.locatellilucas.teachgram.domain.Role;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import java.io.*;
 import java.time.Instant;
 import java.util.*;
 
 @Entity
 @Table(name = "tb_users")
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -24,7 +29,7 @@ public class User implements Serializable {
     private String name;
 
     @Column(unique = true)
-    private String userName;
+    private String username;
 
     private String bio;
 
@@ -47,32 +52,40 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "followed")
     private List<Follow> follows = new ArrayList<>();
 
-    public User(String name, String userName, String bio, String phone, String email, String password, String profileLink) {
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Role.class)
+    @Enumerated(EnumType.STRING)
+    @JoinTable(name = "tb_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "role_name")
+    private List<Role> roles = new ArrayList<>();
+
+    public User(String name, String username, String bio, String phone, String email, String password, String profileLink, List<Role> roles) {
         this.name = name;
-        this.userName = userName;
+        this.username = username;
         this.bio = bio;
         this.phone = phone;
         this.email = email;
         this.password = password;
         this.profileLink = profileLink;
+        this.roles = roles;
     }
 
-    public User(Long id, String name, String userName, String bio, String phone, String email, String password, String profileLink) {
+    public User(Long id, String name, String username, String bio, String phone, String email, String password, String profileLink, List<Role> roles) {
         Id = id;
         this.name = name;
-        this.userName = userName;
+        this.username = username;
         this.bio = bio;
         this.phone = phone;
         this.email = email;
         this.password = password;
         this.profileLink = profileLink;
+        this.roles = roles;
     }
 
-    public User(Long id, boolean deleted, String name, String userName, String bio, String phone, String email, String password, String profileLink) {
+    public User(Long id, boolean deleted, String name, String username, String bio, String phone, String email, String password, String profileLink) {
         Id = id;
         this.deleted = deleted;
         this.name = name;
-        this.userName = userName;
+        this.username = username;
         this.bio = bio;
         this.phone = phone;
         this.email = email;
@@ -126,12 +139,12 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getBio() {
@@ -201,7 +214,7 @@ public class User implements Serializable {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", name='" + name + '\'' +
-                ", userName='" + userName + '\'' +
+                ", username='" + username + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
@@ -209,4 +222,12 @@ public class User implements Serializable {
                 '}';
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.name()));
+        }
+        return authorities;
+    }
 }

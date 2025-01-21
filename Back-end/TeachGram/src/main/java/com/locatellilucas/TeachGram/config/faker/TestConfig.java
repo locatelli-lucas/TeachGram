@@ -49,12 +49,12 @@
 //            String firstName = faker.name().firstName();
 //            String lastName = faker.name().lastName();
 //            String name = firstName + " " + lastName;
-//            String userName = lastName + faker.number().randomNumber(2, true);
+//            String username = lastName + faker.number().randomNumber(2, true);
 //            String bio = faker.lorem().sentence(5);
 //            String phone = faker.numerify("(51) 9####-####");
 //            String email = firstName.toLowerCase() + lastName.toLowerCase() + "@gmail.com";
 //            String password = faker.internet().password(6, 10);
-//            User user = new User(name, userName, bio, phone, email, password, "https://randomuser.me/api/portraits/" + person + "/" + randomNum + ".jpg");
+//            User user = new User(name, username, bio, phone, email, password, "https://randomuser.me/api/portraits/" + person + "/" + randomNum + ".jpg");
 //            userRepository.save(user);
 //
 //            String content = faker.lorem().sentence(15);

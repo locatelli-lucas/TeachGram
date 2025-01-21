@@ -13,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -24,11 +27,25 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
     public UserDTORes create(UserDTOReq userDTOReq) {
         if(userDTOReq == null ||
                 !UserDTOReq.isValid(userDTOReq)) throw new BadRequestException("Invalid user data provided");
 
-        User user = this.userRepository.save(userDTOReq.dtoToUser());
+        String encodedPassword = passwordEncoder.encode(userDTOReq.password());
+
+        User user = userDTOReq.dtoToUser();
+        user.setPassword(encodedPassword);
+
+        this.userRepository.save(user);
         return UserDTORes.userToDto(user);
     }
 
@@ -56,7 +73,7 @@ public class UserService {
         User user = findByIdEntity(id);
 
         if (!Objects.equals(updates.name(), "")) user.setName(updates.name());
-        if (!Objects.equals(updates.userName(), "")) user.setUserName(updates.userName());
+        if (!Objects.equals(updates.username(), "")) user.setUsername(updates.username());
         if (!Objects.equals(updates.bio(), "")) user.setBio(updates.bio());
         if (!Objects.equals(updates.phone(), "")) user.setPhone(updates.phone());
         if (!Objects.equals(updates.email(), "")) user.setEmail(updates.email());
@@ -82,15 +99,16 @@ public class UserService {
         if(loginDTOReq.userName().isEmpty()) throw new RuntimeException("Username is required");
         if(loginDTOReq.password().isEmpty()) throw new RuntimeException("Password is required");
 
-        Optional<User> user = this.userRepository.findByUserName(loginDTOReq.userName());
+        Optional<User> user = this.userRepository.findByUsername(loginDTOReq.userName());
 
         if(user.isEmpty()) throw new EntityNotFoundException("User with name " + loginDTOReq.userName() + " not found");
 
         User newUser = user.get();
 
-        if(!newUser.getPassword().equals(loginDTOReq.password())) throw new BadRequestException("Password does not match");
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDTOReq.userName(), loginDTOReq.password());
+        authenticationManager.authenticate(token);
 
-        return new LoginDTORes("Login successful");
+        return tokenService.generateToken(newUser);
 
     }
 
